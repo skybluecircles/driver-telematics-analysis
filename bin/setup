@@ -1,0 +1,138 @@
+#!/bin/bash
+
+# GET LOCATION OF ZIP FILE
+
+zip_file=$1
+
+if [ ! $zip_file ]
+then
+    echo 'Please pass the path to the drivers.zip file'
+    echo "If you don't have it, type CTRL-C to exit"
+    read zip_file
+fi
+
+if [ ! -f $zip_file ]
+then
+    echo "Zip file ($zip_file) does not exist"
+    exit 1
+fi
+
+
+# SET UP ENVIRONMENT
+
+if [ ! $DTA_DATA ]
+then
+    if [ -f ./DTA_ENV ]
+    then
+        . ./DTA_ENV
+    else
+        data=${2:-data}
+
+        echo 'Where would you like the data stored? [./data]'
+        read response
+
+        if [ $response ]
+        then
+             data=$response
+        fi
+
+        if [[ ${data:0:1} == "/" ]]
+        then
+            DTA_DATA=$data
+        else
+            DTA_DATA=`pwd`/$data
+        fi
+
+        echo "export DTA_DATA=$DTA_DATA" > ./DTA_ENV
+
+        echo "!!!"
+        echo "I just wrote a file called DTA_ENV to your working directory"
+        echo
+        echo "It has an environment variable in it called DTA_DATA"
+        echo
+        echo "DTA_DATA is used frequently by this application"
+        echo
+        echo "Would you like me to add it to your .bash_profile? [y/N]"
+
+        read response
+        echo
+
+        if [[ $response =~ ^[yY] ]]
+        then
+            echo "export DTA_DATA=$DTA_DATA" >> ~/.bash_profile
+
+            echo "After this script finishes, you should exit and log back in"
+            echo "(or source your .bash_profile again) for access to DTA_DATA"
+            echo
+        else
+            echo "No problem, just source it every time you start a new shell, e.g.:"
+            echo
+            echo "    . ./DTA_ENV"
+            echo
+            echo "Do this after this shell exits"
+            echo
+            echo "To add it later to your .bash_profile:"
+            echo
+            echo "    echo ./DTA_ENV >> .bash_profile"
+            echo
+        fi
+    fi
+fi
+
+
+# SET UP DATA
+
+data=$DTA_DATA
+
+if [ ! -d $data ]
+then
+    mkdir $data
+fi
+
+
+drivers=$data/drivers
+driver=$data/driver
+
+if [[ ! -d $drivers  && ! -d $driver ]]
+then
+    unzip -q $zip_file -d $data
+fi
+
+set -e
+set -o pipefail
+
+if [ ! -d $driver ]
+then
+    mv $drivers $driver
+fi
+
+for driver in $driver/*
+do
+    trip=$driver/trip
+
+    if [ ! -d $trip ]
+    then
+        mkdir $trip
+    fi
+
+    for i in {1..200}
+    do
+        if [ ! -f $driver/trip/$i/coordinates-cartesian ]
+        then
+            csv=$driver/$i.csv
+
+            if [ -f $csv ]
+            then
+                if [ ! -d $driver/trip/$i ]
+                then
+                    mkdir $driver/trip/$i
+                fi
+
+                sed -n '2,$p' $csv > $driver/trip/$i/coordinates-cartesian
+                rm $csv
+            else
+                echo "Expected ($csv), but didn't see it"
+            fi
+        fi
+    done
+done
