@@ -1,0 +1,12 @@
+#!/usr/bin/perl -a -F,
+
+BEGIN {
+    @max = split ',', readline;
+}
+
+@max = @F if $F[0] > $max[0];
+
+END {
+    my $out = join ',', @max;
+    print $out;
+}
