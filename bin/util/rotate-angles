@@ -1,0 +1,18 @@
+#!/usr/bin/perl -n
+
+use Math::Trig;
+
+BEGIN {
+    $rotation = shift @ARGV;
+}
+
+$angle = $_ + $rotation;
+
+if ( $angle < pi * -1 ) {
+    $angle += pi * 2;
+}
+elsif ( $angle > pi ) {
+    $angle -= pi * 2;
+}
+
+print $angle, $/;

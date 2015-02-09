@@ -1,0 +1,26 @@
+#!/bin/bash
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo 'Please export DTA_DATA' >&2
+    exit 1
+fi
+
+for driver in data/driver/1
+do
+    for trip in {1..200}
+    do
+        driver_trip=$driver/trip/$trip
+
+        if [ ! -f $driver_trip/rotated-homebody-angles ]
+        then
+            rotation=$( cat $driver_trip/homebody-rotation )
+
+            cut -f 2 -d, $driver_trip/coordinates-polar \
+          | perl -n bin/util/rotate-angles $rotation \
+          > $driver_trip/rotated-homebody-angles
+        fi
+    done
+done
