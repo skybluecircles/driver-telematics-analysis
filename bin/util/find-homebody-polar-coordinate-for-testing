@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo 'Please export DTA_DATA' >&2
+    exit 1
+fi
+
+for driver_id in $( ls $data/driver | sort -n | sed -n 17,25p )
+do
+    for trip_id in {1..200}
+    do
+        driver_trip=$DTA_DATA/driver/$driver_id/trip/$trip_id
+
+        if [[ $( cut -f 2 -d, $driver_trip/homebody-polar-coordinate | awk '$1 < ( -22 / 14 )' ) ]]
+        then
+            echo -n "$driver_id,$trip_id "
+            cat $driver_trip/homebody-polar-coordinate
+            exit 0
+        fi
+    done
+done
