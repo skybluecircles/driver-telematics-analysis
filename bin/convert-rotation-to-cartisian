@@ -10,8 +10,7 @@ fi
 
 for driver in $data/driver/1
 do
-    # for trip in {1..200}
-    for trip in 1
+    for trip in {1..200}
     do
         driver_trip=$driver/trip/$trip
 
