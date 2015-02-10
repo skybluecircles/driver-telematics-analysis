@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -e
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo 'Please export DTA_DATA' >&2
+    exit 1
+fi
+
+start=${1:-1}
+end=${2:-$}
+
+for driver_id in $( ls $data/driver | sort -n | sed -n $start,${end}p )
+do
+    for trip_id in {1..200}
+    do
+        driver_trip=$data/driver/$driver_id/trip/$trip_id
+        rotation=$(cat $driver_trip/homebody-rotation )
+
+        if [[ $( echo $rotation | awk '$1 < ( -22 / 14 )' ) ]]
+        then
+            line=1
+            while read angle 
+            do
+                if [[ $( echo $angle | awk '$1 < ( -22 / 14 )' ) ]]
+                then
+                    echo "driver_trip_line: $driver_id,$trip_id,$line"
+                    echo "angle: $angle"
+                    echo "rotation: $rotation"
+                    exit 0
+                fi
+
+                ((line++))
+            done < <(cut -f 2 -d, $driver_trip/coordinates-polar)
+        fi
+    done
+done
