@@ -14,8 +14,8 @@ my $data = $ENV{DTA_DATA} // die 'Please define the environment variable DTA_DAT
 sub driver_trip_line_value {
     my $driver = shift;
     my $trip   = shift;
-    my $file   = shift;
     my $line   = shift;
+    my $file   = shift;
 
     my $path = driver_trip_file( $driver, $trip, $file )->stringify();
 

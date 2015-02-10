@@ -17,6 +17,10 @@ my @tests = (
         driver_trip_line => [ 1, 1, 863 ],
         expected         => -2.14667055866496,
     },
+    {
+        driver_trip_line => [ 23, 8, 2 ],
+        expected         => 2.24120753758132, 
+    },
 );
 
 foreach my $test (@tests) {
