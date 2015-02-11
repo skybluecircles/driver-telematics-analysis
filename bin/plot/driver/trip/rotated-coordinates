@@ -1,0 +1,18 @@
+#!/usr/bin/Rscript
+
+source("bin/util/driver-trip-args.R")
+source("bin/util/data.R")
+
+rotated <- driver_trip_csv( driver_id, trip_id, "coordinates-cartesian-rotated" )
+
+out <- driver_trip_file( driver_id, trip_id, "rotated-coordinates.svg" )
+svg(out)
+
+plot(  rotated[[1]], rotated[[2]], pch = 16, cex = 0.10, xlab = "", ylab = "", )
+
+lines(  rotated[[1]],  rotated[[2]], lwd = 3, col = "blue" )
+
+title <- paste( driver_id, "-", trip_id, " Rotated Coordinates", sep = "" )
+title( main = title )
+
+dev.off()

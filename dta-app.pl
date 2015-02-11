@@ -33,6 +33,9 @@ app->start;
 
 __DATA__
 
+@@ rotated-coordinates.html.ep
+% layout 'image-loop'
+
 @@ orig-rotated-coordinates.html.ep
 % layout 'image-loop'
 
