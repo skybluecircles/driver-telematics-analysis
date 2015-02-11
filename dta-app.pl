@@ -33,7 +33,10 @@ app->start;
 
 __DATA__
 
-@@ orig-rotated-coordinates.html.ep 
+@@ orig-rotated-coordinates.html.ep
+% layout 'image-loop'
+
+@@ layouts/image-loop.html.ep
 <!DOCTYPE html>
 <html>
   <head>
@@ -50,17 +53,17 @@ __DATA__
   <body>
     <table>
       <tr>
-        <td colspan=4><img src="orig-rotated-coordinates.svg"></td>
+        <td colspan=4><img src="<%= $path %>.svg"></td>
       </tr>
       <tr>
         <td width="12%">&nbsp;</a></td>
         <td>
-          <a href="../<%= $prev %>/orig-rotated-coordinates" id="prev">
+          <a href="../<%= $prev %>/<%= $path %>" id="prev">
             <h1><img src="/img/left-arrow.png" height="132" align="middle"></h1>
           </a>
         </td>
         <td width="20%"> 
-          <a href="../<%= $next%>/orig-rotated-coordinates" id="next">
+          <a href="../<%= $next%>/<%= $path %>" id="next">
             <h1><img src="/img/right-arrow.png" height="132" align="middle"></h1>
           </a>
         </td>
