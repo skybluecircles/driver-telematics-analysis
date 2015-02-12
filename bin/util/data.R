@@ -18,6 +18,11 @@ driver_trip_file <- function ( driver_id, trip_id,  file ) {
     paste( trip_dir, file, sep = '/' )
 }
 
+driver_csv <- function( driver_id, file ) {
+    file <- driver_file( driver_id, file )
+    read.csv( file, header = 1 )
+}
+
 driver_trip_csv <- function( driver_id, trip_id, file ) {
     file <- driver_trip_file( driver_id, trip_id, file )
     read.csv( file, header = 0 )
