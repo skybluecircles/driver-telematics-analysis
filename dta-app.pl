@@ -33,6 +33,9 @@ app->start;
 
 __DATA__
 
+@@ rotated-coordinates-just-calipers.html.ep
+% layout 'image-loop'
+
 @@ rotated-coordinates-with-calipers.html.ep
 % layout 'image-loop'
 
