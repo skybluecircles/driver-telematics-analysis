@@ -3,8 +3,14 @@ use Mojolicious::Lite;
 use strict;
 use warnings;
 
+use lib './lib';
+
+use DTA qw(next_driver_trip_by_homebody_distance prev_driver_trip_by_homebody_distance);
+
+# my $dta = DTA->new();
+
 helper next_trip => sub {
-    my $c = shift;
+    my $c    = shift;
     my $trip = shift;
 
     return 1 if $trip == 200;
@@ -12,20 +18,38 @@ helper next_trip => sub {
 };
 
 helper prev_trip => sub {
-    my $c = shift;
+    my $c    = shift;
     my $trip = shift;
 
     return 200 if $trip == 1;
     return $trip - 1;
 };
 
+get '/driver/:driver/trip/:trip/:path/order-by/homebody-distance' => sub {
+    my $c      = shift;
+    my $driver = $c->stash('driver');
+    my $trip   = $c->stash('trip');
+    my $path   = $c->stash('path');
+    $c->render(
+        next => '../../'
+          . next_driver_trip_by_homebody_distance( $driver, $trip ),
+        prev => '../../'
+          . prev_driver_trip_by_homebody_distance( $driver, $trip ),
+        img      => "../../$path.svg",
+        template => $path,
+        path => "$path/order-by/homebody-distance",
+    );
+};
+
 get '/driver/:driver/trip/:trip/:path' => sub {
-    my $c = shift;
+    my $c    = shift;
     my $trip = $c->stash('trip');
+    my $path = $c->stash('path');
     $c->render(
         next     => $c->next_trip($trip),
         prev     => $c->prev_trip($trip),
-        template => $c->stash('path'),
+        img      => "$path.svg",
+        template => $path,
     );
 };
 
@@ -62,7 +86,7 @@ __DATA__
   <body>
     <table>
       <tr>
-        <td colspan=4><img src="<%= $path %>.svg"></td>
+        <td colspan=4><img src="<%= $img %>"></td>
       </tr>
       <tr>
         <td width="12%">&nbsp;</a></td>
