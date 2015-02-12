@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 
 use Math::Trig;
-use Test::More;
 
 $angle = $ARGV[0];
 

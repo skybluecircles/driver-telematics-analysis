@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -o pipefail
+
 data=$DTA_DATA
 
 if [ ! $data ]
@@ -23,3 +26,5 @@ do
         fi
     done
 done
+
+prove t/integration/convert-rotation-to-cartesian.t
