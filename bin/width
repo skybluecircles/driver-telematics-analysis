@@ -11,7 +11,7 @@ then
     exit 1
 fi
 
-for driver in $data/driver/1
+for driver in $data/driver/*
 do
     for i in {1..200}
     do
@@ -38,6 +38,14 @@ do
 
             sed -n ${right_index}p $driver_trip/coordinates-cartesian-rotated \
           > $driver_trip/right-most-point-cartesian
+        fi
+
+        if [ ! -f $driver_trip/width ]
+        then
+          ( cat $driver_trip/right-most-point-cartesian; \
+            cat $driver_trip/left-most-point-cartesian ) \
+          | perl -n -e '$sum += abs($_); END { print $sum, $/ }' \
+          > $driver_trip/width
         fi
     done
 done
