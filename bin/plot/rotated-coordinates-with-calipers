@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo 'Please export DTA_DATA' >&2
+    exit 1
+fi
+
+for driver in $( ls data/driver | sort -n | sed -n 1p )
+do
+    for trip in {1..200}
+    do
+        if [ ! -f $driver_trip/rotated-coordinates-with-calipers.svg ]
+        then
+            Rscript bin/plot/driver/trip/rotated-coordinates-with-calipers $driver $trip
+        fi
+    done
+done

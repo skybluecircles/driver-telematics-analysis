@@ -1,0 +1,20 @@
+#!/usr/bin/perl -n
+
+BEGIN {
+    $min = $max = readline;
+    $min_index = $max_index = $.;
+}
+
+if ( $_ < $min ) {
+    $min = $_;
+    $min_index = $.;
+}
+elsif ( $_ > $max ) {
+    $max = $_;
+    $max_index = $.;
+}
+
+END {
+    $out = join ',', $min_index, $max_index;
+    print $out, $/;
+}
