@@ -1,0 +1,17 @@
+#!/bin/bash
+
+commands=(
+  cartesian-to-polar
+  homebody-polar-coordinate
+  homebody-distance
+  calculate-homebody-rotation
+  rotate-homebody-angles
+  convert-rotation-to-cartesian
+  width
+)
+
+for command in ${commands[@]}
+do
+    echo $command
+    bin/$command
+done
