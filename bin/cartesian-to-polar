@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -o pipefail
+
 data=$DTA_DATA
 
 if [ ! $data ]
