@@ -8,9 +8,11 @@ Then run `bin/setup` - this will initialize the filesystem.
 
 Then run `bin/batch/morphology` - this will rotate the coordinates and reduce them to just a few points.
 
-** You might want to manually change each individual script to just run on driver 1 **
-** (otherwise it might take a while) **
-** I will change this so that it can be set when the script is invoked **
+```
+You might want to manually change each individual script to just run on driver 1
+                    (otherwise it might take a while)                           
+      I will change this so that it can be set when the script is invoked       
+```
 
 Then run some plots in `bin/plot`
 
