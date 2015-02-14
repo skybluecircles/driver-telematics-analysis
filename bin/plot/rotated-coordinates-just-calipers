@@ -11,11 +11,20 @@ then
     exit 1
 fi
 
-for driver in $( ls data/driver | sort -n | sed -n 1p )
+driver=${1-1}
+
+# this lets a glob like "*" or "1??"
+# get passed in to run multiple plots
+
+for path in $data/driver/$driver
 do
+    driver=`basename $path`
+
     for trip in {1..200}
     do
-        if [ ! -f $driver_trip/rotated-coordinates-just-calipers.svg ]
+        driver_trip=$path/trip/$trip
+
+         if [ ! -f $driver_trip/rotated-coordinates-just-calipers.svg ]
         then
             Rscript bin/plot/driver/trip/rotated-coordinates-just-calipers $driver $trip
         fi
