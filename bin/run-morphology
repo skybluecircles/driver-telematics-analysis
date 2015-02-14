@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -o pipefail
+
 driver_id=${1-1}
 
 commands=(
@@ -14,6 +17,6 @@ commands=(
 
 for command in ${commands[@]}
 do
-    echo $command
-    bin/$command "$driver_id"
+    echo bin/morphology/$command
+    bin/morphology/$command "$driver_id"
 done
