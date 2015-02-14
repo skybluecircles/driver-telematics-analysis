@@ -14,14 +14,6 @@ $ bin/plot-morphology   # visualize data
 
 Start the webserver with `morbo dta-appl.pl`
 
-Make sure `public` is linked to DTA_DATA/driver:
-
-```
-$ ls -l public/
-total 8
-lrwxr-xr-x  1 candela  wheel   15 Feb  9 09:42 driver -> ../data/driver/
-```
-
 `j` and `l` loop through the images
 
 * http://127.0.0.1:3000/driver/1/trip/1/orig-rotated-coordinates
