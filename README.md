@@ -14,11 +14,8 @@ $ bin/plot-morphology   # visualize data
 
 Start the webserver with `morbo dta-appl.pl`
 
-You might need to `bin/install-cpan-dependencies`
+#### Visit: http://127.0.0.1:3000
 
 `j` and `l` loop through the images
 
-* http://127.0.0.1:3000/driver/1/trip/1/orig-rotated-coordinates
-* http://127.0.0.1:3000/driver/1/trip/1/rotated-coordinates
-* http://127.0.0.1:3000/driver/1/trip/1/rotated-coordinates-with-calipers
-* http://127.0.0.1:3000/driver/1/trip/1/rotated-coordinates-just-calipers
+You might need to `bin/install-cpan-dependencies`
