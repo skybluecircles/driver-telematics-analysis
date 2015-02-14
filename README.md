@@ -13,6 +13,7 @@ $ bin/plot-morphology   # visualize data
 ```
 
 Start the webserver with `morbo dta-appl.pl`
+You might need to `bin/install-cpan-dependencies`
 
 `j` and `l` loop through the images
 
