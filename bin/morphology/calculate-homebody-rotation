@@ -18,11 +18,9 @@ do
     for trip in {1..200}
     do
         driver_trip=$driver/trip/$trip
+        angle=$(cut -f 2 -d, $driver_trip/homebody-polar-coordinate)
 
-        if [ ! -f $driver_trip/homebody-rotation ]
-        then
-            angle=$(cut -f 2 -d, $driver_trip/homebody-polar-coordinate)
-            perl bin/util/calculate-rotation $angle > $driver_trip/homebody-rotation
-        fi
+        perl bin/util/calculate-rotation $angle \
+      > $driver_trip/homebody-rotation
     done
 done

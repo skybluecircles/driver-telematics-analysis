@@ -19,12 +19,9 @@ do
     do
         driver_trip=$driver/trip/$trip
 
-        if [ ! -f $driver_trip/coordinates-cartesian-rotated ]
-        then
-            cut -f 1 -d, $driver_trip/coordinates-polar \
-          | paste -d, - $driver_trip/rotated-homebody-angles \
-          | perl -n -F, bin/util/polar-to-cartesian \
-          > $driver_trip/coordinates-cartesian-rotated
-        fi
+        cut -f 1 -d, $driver_trip/coordinates-polar \
+      | paste -d, - $driver_trip/rotated-homebody-angles \
+      | perl -anF, bin/util/polar-to-cartesian \
+      > $driver_trip/coordinates-cartesian-rotated
     done
 done

@@ -19,11 +19,8 @@ do
     do
         driver_trip=$driver/trip/$i
 
-        if [ ! -f $driver_trip/homebody-polar-coordinate ]
-        then
-            cat $driver_trip/coordinates-polar \
-          | perl -a -F, bin/util/homebody-polar-coordinate \
-          > $driver_trip/homebody-polar-coordinate
-        fi
+        cat $driver_trip/coordinates-polar \
+      | perl -anF, bin/util/homebody-polar-coordinate \
+      > $driver_trip/homebody-polar-coordinate
     done
 done

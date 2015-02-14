@@ -19,35 +19,36 @@ do
     do
         driver_trip=$driver/trip/$i
 
-        if [ ! -f $driver_trip/left-right-indicies ]
-        then
-            cut -f 1 -d, $driver_trip/coordinates-cartesian-rotated \
-          | perl -n bin/util/left-right-indicies \
-          > $driver_trip/left-right-indicies
-        fi
+        # Output the indicies (lines) in coordinates-cartesian-rotated
+        # which correspond to the left and right-most points
 
-        if [ ! -f $driver_trip/left-most-point-cartesian ]
-        then
-            left_index=$( cat $driver_trip/left-right-indicies | cut -f 1 -d, )
+        cut -f 1 -d, $driver_trip/coordinates-cartesian-rotated \
+      | perl -n bin/util/left-right-indicies \
+      > $driver_trip/left-right-indicies
 
-            sed -n ${left_index}p $driver_trip/coordinates-cartesian-rotated \
-          > $driver_trip/left-most-point-cartesian
-        fi
+        # Use these indicies to output the actual points
 
-        if [ ! -f $driver_trip/right-most-point-cartesian ]
-        then
-            right_index=$( cat $driver_trip/left-right-indicies | cut -f 2 -d, )
+        left_index=$( cat $driver_trip/left-right-indicies | cut -f 1 -d, )
+        right_index=$( cat $driver_trip/left-right-indicies | cut -f 2 -d, )
 
-            sed -n ${right_index}p $driver_trip/coordinates-cartesian-rotated \
-          > $driver_trip/right-most-point-cartesian
-        fi
+        sed -n ${left_index}p $driver_trip/coordinates-cartesian-rotated \
+      > $driver_trip/left-most-point-cartesian
 
-        if [ ! -f $driver_trip/width ]
-        then
-          ( cat $driver_trip/right-most-point-cartesian; \
-            cat $driver_trip/left-most-point-cartesian ) \
-          | perl -n -e '$sum += abs($_); END { print $sum, $/ }' \
-          > $driver_trip/width
-        fi
+        sed -n ${right_index}p $driver_trip/coordinates-cartesian-rotated \
+      > $driver_trip/right-most-point-cartesian
+
+        # Then add the absolute value of the x coordinates together
+        # to get the trip "width"
+
+        # I can just use -n because in perl + sees "x,y" as just x
+        # e.g. "5,4" + "7,9" would just be seen as 5 + 7
+
+        # This is a bit funny, but it saves me from having to split
+        # the values
+
+      ( cat $driver_trip/right-most-point-cartesian; \
+        cat $driver_trip/left-most-point-cartesian ) \
+      | perl -n -e '$sum += abs($_); END { print $sum, $/ }' \
+      > $driver_trip/width
     done
 done

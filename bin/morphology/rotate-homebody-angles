@@ -18,14 +18,10 @@ do
     for trip in {1..200}
     do
         driver_trip=$driver/trip/$trip
+        rotation=$( cat $driver_trip/homebody-rotation )
 
-        if [ ! -f $driver_trip/rotated-homebody-angles ]
-        then
-            rotation=$( cat $driver_trip/homebody-rotation )
-
-            cut -f 2 -d, $driver_trip/coordinates-polar \
-          | perl -n bin/util/rotate-angles $rotation \
-          > $driver_trip/rotated-homebody-angles
-        fi
+        cut -f 2 -d, $driver_trip/coordinates-polar \
+      | perl -n bin/util/rotate-angles $rotation \
+      > $driver_trip/rotated-homebody-angles
     done
 done

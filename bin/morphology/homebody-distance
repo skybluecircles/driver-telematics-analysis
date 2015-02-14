@@ -19,10 +19,7 @@ do
     do
         driver_trip=$driver/trip/$trip
 
-        if [ ! -f $driver_trip/homebody-distance ]
-        then
-            cut -f 1 -d, $driver_trip/homebody-polar-coordinate \
-          > $driver_trip/homebody-distance
-        fi
+        cut -f 1 -d, $driver_trip/homebody-polar-coordinate \
+      > $driver_trip/homebody-distance
     done
 done
