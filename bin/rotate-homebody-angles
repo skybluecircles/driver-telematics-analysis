@@ -11,7 +11,9 @@ then
     exit 1
 fi
 
-for driver in data/driver/*
+driver_id=${1-1}
+
+for driver in $data/driver/$driver_id
 do
     for trip in {1..200}
     do

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+driver_id=${1-1}
+
 commands=(
   cartesian-to-polar
   homebody-polar-coordinate
@@ -13,5 +15,5 @@ commands=(
 for command in ${commands[@]}
 do
     echo $command
-    bin/$command
+    bin/$command "$driver_id"
 done
