@@ -17,6 +17,6 @@ commands=(
 
 for command in ${commands[@]}
 do
-    echo bin/morphology/$command
+    echo "$command"
     bin/morphology/$command "$driver_id"
 done
