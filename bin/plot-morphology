@@ -15,5 +15,5 @@ commands=(
 for command in ${commands[@]}
 do
     echo "$command"
-    bin/plot/$command "$driver"
+    bin/plot/$command "$driver" > /dev/null
 done
