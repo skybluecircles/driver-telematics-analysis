@@ -3,110 +3,136 @@
 #include <string.h>
 #include <math.h>
 
-#define MAX_ARGS 32767
-#define MAX_ARG_LENGTH 8
-#define MAX_PATH_LENGTH 256
-#define MAX_LINE_LENGTH 256
+#define MAX_ARG_LEN 32
+#define MAX_PATH_LEN 1024
+#define MAX_LINE_LEN 256
 #define IFS ","
 
-int main( int argc, char *argv[] ) {
-    int  i;
+int check_args( int argc, char *argv[] );
+int setup_environment( char *DTA_DATA );
 
-    char in[MAX_PATH_LENGTH];
-    char out[MAX_PATH_LENGTH];
+FILE * open_ifp( int driver_id, int trip_id );
+FILE * open_ofp( int driver_id, int trip_id );
+
+struct cartesian line_to_cartesian( char * line );
+struct polar cartesian_to_polar( struct cartesian c );
+
+struct cartesian {
+    float x;
+    float y;
+};
+
+struct polar {
+    float radius;
+    float azimuth;
+};
+
+char DTA_DATA[MAX_PATH_LEN];
+
+int main( int argc, char *argv[] ) {
+    extern char DTA_DATA[];
+
+    int driver_id;
+    int trip_id;
 
     FILE *ifp;
     FILE *ofp;
 
-    char line[MAX_LINE_LENGTH];
+    char line[MAX_LINE_LEN];
 
-    float x;
-    float y;
+    struct cartesian c;
+    struct polar p;
 
-    float radius;
-    float azimuth;
+    setup_environment( DTA_DATA );
+    check_args( argc, argv );
 
-    char driver_id[MAX_ARG_LENGTH];
-    int trip_id;
+    driver_id = atoi( argv[1] );
 
-    int  path_length;
-    char ENV_VAR[MAX_LINE_LENGTH];
-    char DTA_DATA[MAX_LINE_LENGTH];
+    for( trip_id = 1; trip_id <= 200; trip_id++ ) {
+        ifp = open_ifp( driver_id, trip_id );
+        ofp = open_ofp( driver_id, trip_id );
 
-    snprintf( ENV_VAR, MAX_LINE_LENGTH, "%s", "DTA_DATA" );
-    path_length = strlen(getenv(ENV_VAR));
+        while ( fgets( line, MAX_LINE_LEN, ifp ) != NULL ) {
+            c = line_to_cartesian(line);
+            p = cartesian_to_polar(c);
 
-    if ( path_length > MAX_PATH_LENGTH ) {
-        fprintf(
-            stderr,
-            "You have too many characters (%d) in the enviroment variable DTA_DATA. The limit is (%d).",
-            path_length, MAX_PATH_LENGTH
-        );
-        exit(1);
-    }
-    else {
-        snprintf( DTA_DATA, MAX_PATH_LENGTH, "%s", getenv(ENV_VAR) );
-    }
-
-    if ( argc < 2 ) {
-        fprintf( stderr, "Usage: %s 1 [2 [ n ] ]\n", argv[0] );
-        exit(1);
-    }
-    else if ( argc > MAX_ARGS ) {
-        fprintf( stderr, "Too many arguments (%d). Limit is (%d)\n", argc, MAX_ARGS );
-        exit(1);
-    }
-
-    for ( i = 1; i < argc; i++ ) {
-        if ( strlen(argv[i]) > MAX_ARG_LENGTH ) {
-            fprintf( stderr, "arg %d (%s) has more than %d characters\n", i, argv[i], MAX_ARG_LENGTH );
-            exit(1);
+            fprintf( ofp, "%f,%f\n", p.radius, p.azimuth );
         }
+
+        fclose(ifp);
+        fclose(ofp);
+    }
+}
+
+int check_args( int argc, char *argv[] ) {
+    if ( argc != 2 ) {
+        fprintf( stderr, "Usage: %s driver_id\n", argv[0] );
+        exit(1);
+    }
+    return 0;
+}
+
+int setup_environment( char *DTA_DATA ) {
+    snprintf( DTA_DATA, MAX_PATH_LEN, "%s", getenv("DTA_DATA") );
+    return 0;
+}
+
+FILE * open_ifp( int driver_id, int trip_id ) {
+    char in[MAX_PATH_LEN];
+    FILE *ifp;
+
+    snprintf(
+      in, MAX_PATH_LEN,
+      "%s/driver/%d/trip/%d/coordinates-cartesian",
+      DTA_DATA, driver_id, trip_id
+    );
+
+    ifp = fopen( in, "r" );
+
+    if ( ifp == NULL ) {
+        fprintf( stderr, "Can't open %s\n", in );
+        exit(1);
     }
 
-    for ( i = 1; i < argc; i++ ) {
-        snprintf( driver_id, MAX_ARG_LENGTH, "%s", argv[i] );
+    return ifp;
+}
 
-        for ( trip_id = 1; trip_id <= 200; trip_id++ ) {
-            snprintf(
-              in, MAX_PATH_LENGTH,
-              "%s/driver/%s/trip/%d/coordinates-cartesian",
-              DTA_DATA, driver_id, trip_id
-            );
+FILE * open_ofp( int driver_id, int trip_id ) {
+    char out[MAX_PATH_LEN];
+    FILE *ofp;
 
-            snprintf(
-              out, MAX_PATH_LENGTH,
-              "../data/driver/%s/trip/%d/coordinates-polar-c2",
-              driver_id, trip_id
-            );
+    snprintf(
+      out, MAX_PATH_LEN,
+      "%s/driver/%d/trip/%d/coordinates-polar",
+      DTA_DATA, driver_id, trip_id
+    );
 
-            ifp = fopen( in, "r" );
-            ofp = fopen( out, "w" );
+    ofp = fopen( out, "w" );
 
-            if ( ifp == NULL ) {
-                fprintf( stderr, "Can't open %s\n", in );
-                exit(1);
-            }
-
-            if ( ofp == NULL ) {
-                fprintf( stderr, "Can't open %s\n", out );
-                exit(1);
-            }
-
-            while ( fgets( line, MAX_LINE_LENGTH, ifp ) != NULL ) {
-                line[ strcspn( line, "\n") ] = 0;
-
-                x = atof( strtok( line, IFS ) );
-                y = atof( strtok( NULL, IFS ) );
-
-                radius = sqrt(pow(x,2)+pow(y,2));
-                azimuth = atan2(y,x);
-
-                fprintf( ofp, "%f,%f\n", radius, azimuth );
-            }
-
-            fclose(ifp);
-            fclose(ofp);
-        }
+    if ( ofp == NULL ) {
+        fprintf( stderr, "Can't open %s\n", out );
+        exit(1);
     }
+
+    return ofp;
+}
+
+struct cartesian line_to_cartesian( char * line ) {
+    struct cartesian c;
+
+    line[ strcspn( line, "\n") ] = 0;
+
+    c.x = atof( strtok( line, IFS ) );
+    c.y = atof( strtok( NULL, IFS ) );
+
+    return c;
+}
+
+struct polar cartesian_to_polar( struct cartesian c ) {
+    struct polar p;
+
+    p.radius = sqrt(pow(c.x,2)+pow(c.y,2));
+    p.azimuth = atan2(c.y,c.x);
+
+    return p;
 }
