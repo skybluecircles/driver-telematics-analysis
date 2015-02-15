@@ -69,12 +69,15 @@ int check_args( int argc, char *argv[] ) {
         fprintf( stderr, "Usage: %s driver_id\n", argv[0] );
         exit(1);
     }
-    return 0;
 }
 
 int setup_environment( char *DTA_DATA ) {
+    if ( getenv("DTA_DATA") == NULL ) {
+        fprintf( stderr, "Please define the environment variable (DTA_DATA)\n" );
+        exit(1);
+    }
+
     snprintf( DTA_DATA, MAX_PATH_LEN, "%s", getenv("DTA_DATA") );
-    return 0;
 }
 
 FILE * open_ifp( int driver_id, int trip_id ) {
