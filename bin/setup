@@ -186,3 +186,12 @@ do
         fi
     done
 done
+
+
+# Create a symolic link so the webapp
+# can find the driver data
+
+if [ ! -h public/driver ]
+then
+    ln -s $DTA_DATA/driver public/driver
+fi

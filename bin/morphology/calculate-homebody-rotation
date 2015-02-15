@@ -11,16 +11,16 @@ then
     exit 1
 fi
 
-for driver in $data/driver/1
+driver_id=${1-1}
+
+for driver in $data/driver/$driver_id
 do
     for trip in {1..200}
     do
         driver_trip=$driver/trip/$trip
+        angle=$(cut -f 2 -d, $driver_trip/homebody-polar-coordinate)
 
-        if [ ! -f $driver_trip/homebody-distance ]
-        then
-            cut -f 1 -d, $driver_trip/homebody-polar-coordinate \
-          > $driver_trip/homebody-distance
-        fi
+        perl bin/util/calculate-rotation $angle \
+      > $driver_trip/homebody-rotation
     done
 done
