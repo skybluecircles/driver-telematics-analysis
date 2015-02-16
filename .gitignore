@@ -1,3 +1,4 @@
 data/driver
 DTA_ENV
 public/driver
+bin/driver/trip/rotate-coordinates
