@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cc src/driver/trip/rotate-coordinates.c -o bin/driver/trip/rotate-coordinates
+cc src/dta/{rotate-coordinates.c,geometry.c} -o bin/driver/trip/rotate-coordinates
