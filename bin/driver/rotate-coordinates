@@ -1,0 +1,34 @@
+#!/bin/bash
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo 'Please export DTA_DATA' >&2
+    exit 1
+fi
+
+driver_id=${1-1}
+
+for driver in $data/driver/$driver_id
+do
+    if [ ! -d $driver ]
+    then
+        echo "Driver directory does not exisit: $driver" >&2
+        exit 1;
+    fi
+
+    for i in {1..200}
+    do
+        driver_trip=$driver/trip/$i
+
+        cat $driver_trip/coordinates-cartesian \
+      | bin/driver/trip/rotate-coordinates \
+      > $driver_trip/coordinates-rotated
+
+        if [ $? != 0 ]
+        then
+            echo "Problem with $driver_trip" >&2;
+        fi
+    done
+done

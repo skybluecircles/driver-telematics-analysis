@@ -7,9 +7,10 @@ http://www.kaggle.com/c/axa-driver-telematics-analysis
 Then run:
 
 ```
-$ bin/setup             # initialize the filesystem (~3 hours)
-$ bin/run-morphology    # rotate coordinates and reduce to 4 points
-$ bin/plot-morphology   # visualize data
+$ bin/setup                                  # initialize the filesystem (~3 hours)
+$ bin/compile/driver/trip/rotate-coordinates #
+$ bin/driver/rotate-coordinates              #
+$ bin/plot/driver/orig-rotated-coordinates   #
 ```
 
 Start the webserver with `morbo dta-appl.pl`
