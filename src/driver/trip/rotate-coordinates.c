@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
+#include <errno.h>
 
 #define MAX_LINE 256
 #define MAX_DURATION 65536 
@@ -20,7 +21,6 @@ struct point_p {
     int    ok;
 };
 
-int is_valid_token( char *l ); 
 struct point_c l_to_c ( char * line );
 struct point_p c_to_p ( struct point_c c );
 struct point_p rotate ( struct point_p p, double rotation );
@@ -94,59 +94,45 @@ struct point_c l_to_c
 )
 {
     struct point_c c;
-    char *token;
+    char *endptr;
 
-    l[ strcspn( l, "\n") ] = 0;
+    /* I'm expecting to receive a line like "1.34227,9.21210\n"
+       or "1.34227,921210EOF"
+
+       The first call to strtod should return 1.34227 and set
+       endptr to the ",".
+
+       I then increment endptr by 1 to point to the 9 in 9.21210.
+
+       So, the second call to strtod should return 9.21210 and
+       set endptr to whatever comes after it, if anything.
+
+       Note that in the first call, when I check for endptr == l,
+       I'm checking whether endptr actually moved as I don't want
+       a line like ",5423.12185" to be considered valid. */
 
     c.ok = 1;
-    token = strtok( l, IFS );
-    if( token != NULL && is_valid_token(token) ) {
-        c.x = atof( token );
+    c.x = strtod( l, &endptr );
+
+    if( errno == ERANGE ) {
+        fprintf( stderr, "Warning: overflow or underflow when converting line to point\n" );
     }
-    else {
+    if( errno == ERANGE || endptr == l || *endptr != ',' ) {
         c.ok = 0;
+        return c;
     }
 
-    token = strtok( NULL, IFS );
-    if( token != NULL && is_valid_token(token) ) {
-        c.y = atof( token );
+    endptr++;
+    c.y = strtod( endptr, &endptr );
+
+    if( errno == ERANGE ) {
+        fprintf( stderr, "Warning: overflow or underflow when converting line to point\n" );
     }
-    else {
+    else if( *endptr != '\0' && *endptr != '\n' && *endptr != EOF ) {
         c.ok = 0;
     }
 
     return c;
-}
-
-int is_valid_token( char *l ) {
-    int len;
-    int i;
-    char c;
-    int cnt = 0;
-
-    len = strlen(l); 
-    if ( len == 0 ) {
-        return 0;
-    }
-
-    for( i = 0; i < len; i++ ) {
-        c = l[i];
-        if( isdigit(c) ) {
-            continue;
-        }
-        else if( i == 0 && c == '-' ) {
-            continue;
-        }
-        else if( c == '.' && cnt < 1 ) {
-            cnt++;
-            continue;
-        }
-        else {
-            return 0;
-        }
-    }
-
-    return 1;
 }
 
 struct point_p c_to_p
