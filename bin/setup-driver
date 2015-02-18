@@ -1,0 +1,86 @@
+#!/bin/bash
+
+# Note: this script could be called for each individual
+# driver. But that would be highly in efficient as it would
+# extract each file in the zip archive individually.
+
+# It would be much quicker to run bin/setup-all-drivers
+
+# This is just meant to get you going with some data...data=$DTA_DATA
+
+zip=$1
+driver_id=${2-1}
+
+if [ ! $zip ]
+then
+    echo "Usage: $0 drivers.zip [driver_id]" >&2
+    exit 1
+elif [ ! -f $zip ]
+then
+    echo "Can't find file ($zip)" >&2
+    exit 1
+fi
+
+error=0
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo "Didn't find environment variable DTA_DATA" >&2
+    error=1
+fi
+
+if [ ! -d $data/driver ]
+then
+    echo "Directory not found ($data/driver)" >&2
+    error=1
+fi
+
+if [ $error == 1 ]
+then
+    echo "Have you run bin/init yet?" >&2
+    exit 1
+fi
+
+
+driver=$data/driver/$driver_id
+
+if [ ! -d $driver/trip ]
+then
+    mkdir -p $driver/trip
+fi
+
+for trip_id in {1..200}
+do
+    driver_trip=$driver/trip/$trip_id
+
+    if [ ! -d $driver_trip ]
+    then
+        mkdir $driver_trip
+    fi
+
+    # I can't "set -o pipefail" because the zip file is malformed
+    # and does not return 0 (even though it unzips)
+
+    # Could go back and check exit statuses manually.
+
+    # I should also write unzip's STDERR to a file and point the
+    # user to it if the "coordinates" files don't look right.
+
+    # Right now, I'm masking all errors b/c unzip is very noisy.
+
+    if [ ! -f $driver_trip/coordinates ]
+    then
+        unzip -p $zip drivers/$driver_id/$trip_id.csv 2> /dev/null \
+      | sed -n '2,$p' \
+      > $driver_trip/coordinates
+    fi
+
+    if [ ! -f $driver_trip/coordinates-rotated ]
+    then
+        cat $driver_trip/coordinates \
+      | bin/driver/trip/rotate-coordinates \
+      > $driver_trip/coordinates-rotated
+    fi
+done
