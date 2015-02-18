@@ -85,3 +85,10 @@ then
         fi
     fi
 fi
+
+# MAKE DIR
+
+if [ ! -d $DTA_DATA ]
+then
+    mkdir $DTA_DATA
+fi
