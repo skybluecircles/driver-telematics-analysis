@@ -4,12 +4,23 @@
 
 data=$DTA_DATA
 
+error=0
 if [ ! $data ]
 then
     echo "Didn't find environment variable DTA_DATA" >&2
+    error=1
+elif [ ! -d $data ]
+then
+    echo "DTA_DATA directory ($data) doesn't exist"
+    error=1
+fi
+
+if [ $error == 1 ]
+then
     echo "Have you run bin/environment yet?" >&2
     exit 1
 fi
+
 
 # UNZIP
 

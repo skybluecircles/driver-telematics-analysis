@@ -11,4 +11,4 @@ $ bin/environment
 $ bin/setup-data
 ```
 
-This may take a while.
+This may take a while - it took me ~130 min.
