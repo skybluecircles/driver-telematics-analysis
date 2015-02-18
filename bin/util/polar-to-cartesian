@@ -1,8 +1,0 @@
-#!/usr/bin/perl -a -F,
-
-( $distance, $angle ) = @F;
-
-$x = $distance * cos $angle;
-$y = $distance * sin $angle;
-
-print "$x,$y", $/;
