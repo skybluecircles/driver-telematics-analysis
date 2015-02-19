@@ -9,7 +9,17 @@ Then run the commands below.
 ```
 $ bin/environment
 $ bin/setup-data
-$ bin/compile
 ```
 
-This may take a while - it took me ~130 min.
+To begin visualizing the data:
+
+```
+$ bin/plot/coordinates
+$ morbo web-app.pl
+```
+
+And visit
+
+#### http://127.0.0.1:3000/
+
+(you may need to `$ bin/util/install-dependencies` first)
