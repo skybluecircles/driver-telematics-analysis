@@ -1,4 +1,7 @@
 #!/bin/bash
 
+echo "Compiling rotate-coordinates"
 cc src/rotate-coordinates.c src/geometry.c -o bin/util/rotate-coordinates
+
+echo "Compiling distances"
 cc src/distances.c src/geometry.c -o bin/util/distances

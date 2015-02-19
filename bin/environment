@@ -92,3 +92,5 @@ if [ ! -d $DTA_DATA ]
 then
     mkdir $DTA_DATA
 fi
+
+prove t/integration/environment.t

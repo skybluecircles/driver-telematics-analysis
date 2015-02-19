@@ -99,3 +99,5 @@ then
     ln -s $DTA_DATA/driver ./driver
     cd -
 fi
+
+prove t/integration/setup-data.t

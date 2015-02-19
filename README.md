@@ -9,6 +9,7 @@ Then run the commands below.
 ```
 $ bin/environment
 $ bin/setup-data
+$ bin/compile
 ```
 
 This may take a while - it took me ~130 min.
