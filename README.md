@@ -9,6 +9,7 @@ Then run the commands below.
 ```
 $ bin/environment
 $ bin/setup-data
+$ bin/util/install-dependencies
 ```
 
 To begin visualizing the data:
@@ -21,5 +22,3 @@ $ morbo web-app.pl
 And visit
 
 #### http://127.0.0.1:3000/
-
-(you may need to `$ bin/util/install-dependencies` first)
