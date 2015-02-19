@@ -5,28 +5,41 @@ then
     have_cpanm=1
 fi
 
-while read dependency
-do
-    perl -e "use $dependency" 2>/dev/null
+cat <<question
+This application depends on some CPAN modules.
 
-    if [ $? != 0 ]
-    then
-        if [ $have_cpanm ]
-        then
-            cpanm $dependency
-        else
-            cpan $dependency
-        fi
+Do you want me to install them? [Y/n]
+question
 
+read response
+
+if [ $response == 'Y' ]
+then
+    while read dependency
+    do
         perl -e "use $dependency" 2>/dev/null
 
         if [ $? != 0 ]
         then
-            echo "Module installation failed ($dependency)" >&2
-            exit 1
+            if [ $have_cpanm ]
+            then
+                cpanm $dependency
+            else
+                cpan $dependency
+            fi
+
+            perl -e "use $dependency" 2>/dev/null
+
+            if [ $? != 0 ]
+            then
+                echo "Module installation failed ($dependency)" >&2
+                exit 1
+            fi
         fi
-    fi
-done < cpan.dependencies
+    done < cpan.dependencies
+else
+    echo "No problem, they are all in ./cpan.depencies"
+fi
 
 if ! hash Rscript >/dev/null 2>&1
 then
