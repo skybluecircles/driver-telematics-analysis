@@ -1,3 +1,0 @@
-#!/bin/bash
-
-cc src/rotate-coordinates.c src/geometry.c -o bin/driver/trip/rotate-coordinates

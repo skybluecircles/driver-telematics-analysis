@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Compiling rotate-coordinates"
+cc src/rotate-coordinates.c src/geometry.c -o bin/util/rotate-coordinates
