@@ -10,6 +10,8 @@ Then run the commands below.
 $ bin/environment
 $ bin/setup-data
 $ bin/util/install-dependencies
+$ bin/compile
+$ bin/rotate
 ```
 
 To begin visualizing the data:
