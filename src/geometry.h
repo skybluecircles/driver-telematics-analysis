@@ -14,4 +14,5 @@ struct point_c l_to_c ( char * line, char ifs );
 struct point_p c_to_p ( struct point_c c );
 struct point_p rotate ( struct point_p p, double rotation );
 struct point_c p_to_c ( struct point_p p );
-double calculate_rotation ( struct point_p hb ); 
+double calculate_rotation ( struct point_p hb );
+double distance ( struct point_c a, struct point_c b );
