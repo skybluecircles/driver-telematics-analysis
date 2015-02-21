@@ -20,7 +20,7 @@ driver_trip_file <- function ( driver_id, trip_id,  file ) {
 
 driver_csv <- function( driver_id, file ) {
     file <- driver_file( driver_id, file )
-    read.csv( file, header = 1 )
+    read.csv( file, header = 0 )
 }
 
 driver_trip_csv <- function( driver_id, trip_id, file ) {

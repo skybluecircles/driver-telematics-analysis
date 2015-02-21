@@ -1,0 +1,26 @@
+#!/usr/bin/Rscript
+
+source("bin/util/driver-trip-args.R")
+source("bin/util/data.R")
+
+durations <- driver_csv( driver_id, 'durations' )
+distances <- driver_csv( driver_id, 'distances' )
+
+out_file <- driver_file( driver_id, 'distance-over-duration.svg' )
+svg( out_file )
+
+plot(
+    durations[[1]],
+    distances[[1]],
+    xlab = "duration (seconds)",
+    ylab = "distance (meters)"
+)
+
+title(
+    main = paste( "Driver ", driver_id, " - Distance over Duration", sep = "" ),
+    font.main = 2
+)
+
+abline(lm(distances[[1]] ~ durations[[1]]))
+
+dev.off()
