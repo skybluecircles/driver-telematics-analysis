@@ -117,9 +117,9 @@ struct point_c p_to_c
     return c;
 }
 
-float distance
+double distance
 (
-    struct point_c a
+    struct point_c a,
     struct point_c b
 )
 {

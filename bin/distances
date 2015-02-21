@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# We're passing the coordinates through bin/util/distances
+# to output the distance between each point.
+
+# We save a copy of this by using 'tee', but also pipe STDOUT
+# through a perl script to calculate the sum of these points.
+
+# We print the sum to STDOUT and redirect that to a file
+# called 'distance', BUT, we also print the number of records
+# to STDERR and redirect that to 'duration'.
+
+# Yes, I know.
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo "Please define the environment variable DTA_DATA" >&2
+    exit 1
+fi
+
+driver_id=${1-1}
+
+for driver in $data/driver/$driver_id
+do
+    if [ ! -d $driver ]
+    then
+        echo "No directory for ($driver)" >&2
+        exit 1
+    fi
+
+    for i in {1..200}
+    do
+        driver_trip=$driver/trip/$i
+
+        cat $driver_trip/coordinates \
+      | bin/util/distances \
+      | tee $driver_trip/distances \
+      | perl -ne '$sum += $_; END { print $sum, $/; print STDERR $., $/ }' \
+      > $driver_trip/distance \
+     2> $driver_trip/duration
+    done
+done
