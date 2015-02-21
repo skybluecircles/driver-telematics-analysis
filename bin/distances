@@ -12,6 +12,9 @@
 
 # Yes, I know.
 
+set -e
+set -o pipefail
+
 data=$DTA_DATA
 
 if [ ! $data ]
@@ -23,6 +26,12 @@ fi
 driver_id=${1-1}
 first_trip=${2-1}
 last_trip=${3-200}
+
+if [ $last_trip -gt 200 ]
+then
+    echo "Max value for \$3 (last_trip) is 200 but you passed ($last_trip)" >&2
+    exit 1
+fi
 
 for driver in $data/driver/$driver_id
 do
