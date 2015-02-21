@@ -6,6 +6,8 @@
 #define MAX_LINE 256 
 #define IFS ','
 
+int check_point ( struct point_c a, int line_no, char *line );
+
 int main () {
     char l[MAX_LINE];
     struct point_c a, b;
@@ -18,23 +20,31 @@ int main () {
     }
 
     a = l_to_c(l, IFS);
-    if( !a.ok ) {
-        fprintf( stderr, "Problem creating point from line 1 from stdin (%s)\n", l );
-        exit(1);
-    }
+    check_point( a, 1, l );
 
     i = 2;
     while
     ( fgets( l, MAX_LINE, stdin ) != NULL )
     {
         b = l_to_c(l, IFS);
-        if ( !b.ok ) {
-            fprintf( stderr,"Problem creating point from line %d (%s)\n", i, l );
-            exit(1);
-        }
+        check_point( b, i, l );
 
         printf( "%f\n", distance(a,b) );
         a = b;
         i++;
     }
+}
+
+int check_point
+(
+    struct point_c a,
+    int line_no,
+    char *line
+)
+{
+    if ( ! a.ok ) {
+        fprintf( stderr, "Problem creating point from line %d: %s", line_no, line );
+        exit(1);
+    }
+    return 0;
 }
