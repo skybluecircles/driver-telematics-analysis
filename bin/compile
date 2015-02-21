@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cc src/rotate-coordinates.c src/geometry.c -o bin/util/rotate-coordinates
+cc src/distances.c src/geometry.c -o bin/util/distances
