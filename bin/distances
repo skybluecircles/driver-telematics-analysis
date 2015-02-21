@@ -21,6 +21,8 @@ then
 fi
 
 driver_id=${1-1}
+first_trip=${2-1}
+last_trip=${3-200}
 
 for driver in $data/driver/$driver_id
 do
@@ -30,7 +32,7 @@ do
         exit 1
     fi
 
-    for i in {1..200}
+    for (( i=$first_trip; i<=$last_trip; i++ ))
     do
         driver_trip=$driver/trip/$i
 
