@@ -45,7 +45,7 @@ do
     do
         driver_trip=$driver/trip/$i
 
-        cat $driver_trip/coordinates-cartesian \
+        cat $driver_trip/coordinates \
       | bin/util/distances \
       | tee $driver_trip/distances \
       | perl -ne '$sum += $_; END { print $sum, $/; print STDERR $., $/ }' \

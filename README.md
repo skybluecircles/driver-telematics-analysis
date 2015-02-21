@@ -11,7 +11,7 @@ $ bin/environment
 $ bin/setup-data
 $ bin/util/install-dependencies
 $ bin/compile
-$ bin/rotate
+$ prove t/integration
 ```
 
 To begin visualizing the data:
