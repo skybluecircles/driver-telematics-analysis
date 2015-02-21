@@ -1,4 +1,5 @@
 File::Which
+Forest::Tree
 Hash::Ordered
 IPC::System::Simple
 Math::Trig
@@ -6,6 +7,7 @@ Mojolicious::Lite
 Moose
 MooseX::StrictConstructor
 MooseX::Types::Moose
+MooseX::Types::Path::Class
 Path::Class
 Regexp::Common
 Sub::Exporter

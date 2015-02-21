@@ -3,6 +3,11 @@ use Mojolicious::Lite;
 use strict;
 use warnings;
 
+use DTA::Dependencies;
+use Data::Dumper;
+
+my $dependencies = DTA::Dependencies->new();
+
 helper next_trip => sub {
     my $c    = shift;
     my $trip = shift;
@@ -20,6 +25,15 @@ helper prev_trip => sub {
 };
 
 get '/' => 'index';
+
+get '/driver/:driver/:path' => sub {
+    my $c = shift;
+
+    my $path = $c->stash( 'path' );
+    my $driver = $c->stash( 'driver');
+
+    $dependencies->satisfy( $path, $driver );
+};
 
 get '/driver/:driver/trip/:trip/:path' => sub {
     my $c    = shift;

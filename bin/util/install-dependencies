@@ -13,7 +13,7 @@ question
 
 read response
 
-if [ $response == 'Y' ]
+if [[ ! $response || $response -eq "Y" ]]
 then
     while read dependency
     do
