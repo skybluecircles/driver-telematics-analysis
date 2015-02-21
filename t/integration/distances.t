@@ -40,6 +40,7 @@ foreach my $expectation ( @expected ) {
     cmp_deeply( \@data, $expectation->{comparison}, $message );
 }
 
+done_testing();
 cleanup();
 
 sub cleanup {
