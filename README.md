@@ -11,16 +11,20 @@ $ bin/environment
 $ bin/setup-data
 $ bin/util/install-dependencies
 $ bin/compile
-$ prove t/integration
+$ prove t/integration/*
 ```
 
-To begin visualizing the data:
+If the integration tests pass, your environment should be sane.
+
+Now you can begin working with the data:
 
 ```
-$ bin/plot/coordinates
+$ bin/distances '*'
+```
+
+and [visualizing](http://127.0.0.1:3000/driver/1/distance-over-duration) it:
+
+```
+$ bin/plot/distance-over-duration '*'
 $ morbo web-app.pl
 ```
-
-And visit
-
-#### http://127.0.0.1:3000/
