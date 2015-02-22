@@ -15,16 +15,3 @@ $ prove t/integration/*
 ```
 
 If the integration tests pass, your environment should be sane.
-
-Now you can begin working with the data:
-
-```
-$ bin/distances '*'
-```
-
-and [visualizing](http://127.0.0.1:3000/driver/1/distance-over-duration) it:
-
-```
-$ bin/plot/distance-over-duration '*'
-$ morbo web-app.pl
-```
