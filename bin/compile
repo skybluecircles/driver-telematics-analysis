@@ -2,3 +2,6 @@
 
 cc src/rotate-coordinates.c src/geometry.c -o bin/util/rotate-coordinates
 cc src/distances.c src/geometry.c -o bin/util/distances
+
+echo "   acceleration"
+cc src/acceleration.c -o bin/util/acceleration
