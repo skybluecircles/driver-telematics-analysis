@@ -1,0 +1,67 @@
+#!/usr/bin/env perl -I./lib
+
+use strict;
+use warnings;
+
+use Getopt::Long qw(GetOptions :config no_auto_abbrev no_ignore_case);
+
+GetOptions
+  'h|help'     => \my $help,
+  'l|listen=s' => \my @listen,
+  'm|mode=s'   => \$ENV{MOJO_MODE},
+  'v|verbose'  => \$ENV{MORBO_VERBOSE},
+  'w|watch=s'  => \my @watch;
+
+my $app = 'web-app.pl';
+if ($help || !$app) {
+  require Mojolicious::Command;
+  die Mojolicious::Command->new->extract_usage;
+}
+
+$ENV{MOJO_LISTEN} = join ',', @listen if @listen;
+require Mojo::Server::Morbo;
+my $morbo = Mojo::Server::Morbo->new;
+$morbo->watch(\@watch) if @watch;
+$morbo->run($app);
+
+=encoding utf8
+
+=head1 NAME
+
+HTTP and WebSocket development server for DTA
+
+=head1 SYNOPSIS
+
+  Usage: web-app-up [OPTIONS]
+
+    morbo -m production -l https://*:443 -l http://[::]:3000
+    morbo -l 'https://*:443?cert=./server.crt&key=./server.key'
+    morbo -w /usr/local/lib -w public
+
+  Options:
+    -h, --help                     Show this message
+    -l, --listen <location>        One or more locations you want to listen
+                                   on, defaults to the value of MOJO_LISTEN or
+                                   "http://*:3000"
+    -m, --mode <name>              Operating mode for your application,
+                                   defaults to the value of
+                                   MOJO_MODE/PLACK_ENV or "development"
+    -v, --verbose                  Print details about what files changed to
+                                   STDOUT
+    -w, --watch <directory/file>   One or more directories and files to watch
+                                   for changes, defaults to the application
+                                   script as well as the "lib" and "templates"
+                                   directories in the current working
+                                   directory
+
+=head1 DESCRIPTION
+
+This is just Mojo's morbo server with our 'web-app.pl' hard-coded as the app it starts.
+
+See L<Mojo::Server::Morbo> for full details. 
+
+=head1 SEE ALSO
+
+L<Mojolicious>, L<Mojolicious::Guides>, L<http://mojolicio.us>.
+
+=cut

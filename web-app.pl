@@ -3,16 +3,19 @@ use Mojolicious::Lite;
 use strict;
 use warnings;
 
+use DTA::WebApp::Helper qw(next_driver prev_driver);
+
 get 'driver/:driver/:path' => sub {
-    my $c    = shift;
-    my $path = $c->stash( 'path' );
+    my $c      = shift;
+    my $driver = $c->stash( 'driver' );
+    my $path   = $c->stash( 'path' );
     $c->render(
-        next     => $c->next_driver( $driver ),
-        prev     => $c->prev_driver( $driver ),
+        next     => next_driver( $driver ),
+        prev     => prev_driver( $driver ),
         img      => "$path.svg",
         template => $path,
     );
-    }
+};
 
 app->start;
 

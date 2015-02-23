@@ -15,7 +15,7 @@ my %indicies_driver;
 my $max_index;
 my $min_index = 0;
 
-_build_id_index_map();
+_build();
 
 sub next_driver {
     my $driver = shift;
@@ -43,7 +43,7 @@ sub prev_driver {
     return $indicies_driver{$max_index};
 }
 
-sub _build_id_index_map {
+sub _build {
     my $index;
     my $file = 'sorted-driver-ids';
     open( my $in, '<', $file ) || die "Could not open file ($file): $!";

@@ -38,10 +38,12 @@ $ bin/plot/pin-wheel '*'   # all drivers
 Now, you can start the web-app.
 
 ```
-morbo web-app.pl
+$ bin/web-app-up    # may need to: $ perl -I./lib bin/web-app-up
 ```
 
-And [visualize](http://127.0.0.1/driver/1/pin-wheel) what you've done.
+And [visualize](http://127.0.0.1:3000/driver/1/pin-wheel) what you've done.
 
 * 'j' moves to the previous driver
 * 'l' moves to the next driver
+
+*You'll need to have created the plot for any driver you want to look at.*
