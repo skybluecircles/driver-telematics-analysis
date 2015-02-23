@@ -20,7 +20,7 @@ _build_id_index_map();
 sub next_driver {
     my $driver = shift;
 
-    my $index = $drivers_index{$driver};
+    my $index = $drivers_index{$driver} // die "No index for driver ($driver)";
 
     if ( $index < $max_index ) {
         $index++;
@@ -33,7 +33,7 @@ sub next_driver {
 sub prev_driver {
     my $driver = shift;
 
-    my $index = $drivers_index{$driver};
+    my $index = $drivers_index{$driver} // die "No index for driver ($driver)";
 
     if ( $index > $min_index ) {
         $index--;
@@ -44,7 +44,7 @@ sub prev_driver {
 }
 
 sub _build_id_index_map {
-    my $index; 
+    my $index;
     my $file = 'sorted-driver-ids';
     open( my $in, '<', $file ) || die "Could not open file ($file): $!";
 
