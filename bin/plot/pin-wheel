@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo 'Please export DTA_DATA' >&2
+    exit 1
+fi
+
+driver=${1-1}
+
+# this lets a glob like "*" or "1??"
+# get passed in to run multiple plots
+
+for path in $data/driver/$driver
+do
+    driver=`basename $path`
+
+    if [ ! -d $path ]
+    then
+        echo "Driver dir does not exist ($path)" >&2
+        exit 1
+    fi
+
+    Rscript bin/plot/util/pin-wheel.R $driver
+done
