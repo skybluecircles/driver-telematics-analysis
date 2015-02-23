@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# CHECK ENVIRONMENT
+
+data=$DTA_DATA
+
+error=0
+if [ ! $data ]
+then
+    echo "Didn't find environment variable DTA_DATA" >&2
+    error=1
+elif [ ! -d $data ]
+then
+    echo "DTA_DATA directory ($data) doesn't exist"
+    error=1
+fi
+
+if [ $error == 1 ]
+then
+    echo "Have you run bin/environment yet?" >&2
+    exit 1
+fi
+
+
+# UNZIP
+
+zip_file=$1
+
+if [ ! $zip_file ]
+then
+    echo "Usage: $ $0 drivers.zip" >&2
+    exit 1
+
+elif [ ! -f $zip_file ]
+then
+    echo "Zip file ($zip_file) does not exist" >&2
+    exit 1
+fi
+
+if [[ ! -d $data/drivers && ! -d $data/driver ]]
+then
+    unzip -q $zip_file -d $data
+    mv $data/drivers $data/driver
+fi
+
+# couldn't do this before because zip file is malformed
+# and returns non-zero
+
+set -e
+set -o pipefail 
+
+#######################################################
+#  We're mapping drivers.zip to a RESTful filesystem  #
+#    drivers/X/Y.csv -> driver/X/trip/Y/coordinates   #
+#######################################################
+
+for driver in $data/driver/*
+do
+    if [ ! -d $driver/trip ]
+    then
+        mkdir $driver/trip
+    fi
+
+    for i in {1..200} # can assume that each driver has 200 trips
+    do
+        driver_trip=$driver/trip/$i
+
+        if [ ! -f $driver_trip/coordinates ]
+        then
+            csv=$driver/$i.csv
+
+            if [ -f $csv ]
+            then
+                if [ ! -d $driver_trip ]
+                then
+                    mkdir $driver_trip
+                fi
+
+                # Stripping the header
+                sed -n '2,$p' $csv > $driver_trip/coordinates
+                rm $csv
+            else
+                echo "Neither ($driver_trip/coordinates) nor ($csv) exists" >&2
+                echo "Expected one or the other" >&2
+                exit 1
+            fi
+        fi
+    done
+done
+
+# WEBAPP SYMLINK
+
+# Create a symolic link so the webapp
+# can access the data
+
+if [ ! -h public/driver ]
+then
+    cd public
+    ln -s $DTA_DATA/driver ./driver
+    cd -
+fi
+
+prove t/integration/setup-data.t

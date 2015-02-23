@@ -1,9 +1,15 @@
+File::Which
 Hash::Ordered
 IPC::System::Simple
 Math::Trig
 Mojolicious::Lite
+Moose
+MooseX::StrictConstructor
+MooseX::Types::Moose
 Path::Class
+Regexp::Common
 Sub::Exporter
 Test::Deep
 Test::More
 Test::Number::Delta
+namespace::autoclean

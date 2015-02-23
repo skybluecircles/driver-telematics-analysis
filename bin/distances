@@ -45,11 +45,29 @@ do
     do
         driver_trip=$driver/trip/$i
 
-        cat $driver_trip/coordinates-cartesian \
+        cat $driver_trip/coordinates \
       | bin/util/distances \
       | tee $driver_trip/distances \
       | perl -ne '$sum += $_; END { print $sum, $/; print STDERR $., $/ }' \
       > $driver_trip/distance \
      2> $driver_trip/duration
+    done
+
+    if [ -f $driver/distances ]
+    then
+        rm $driver/distances
+    fi
+
+    if [ -f $driver/durations ]
+    then
+        rm $driver/durations
+    fi 
+
+    for (( i=$first_trip; i<=$last_trip; i++ ))
+    do
+        driver_trip=$driver/trip/$i
+
+        cat $driver_trip/distance >> $driver/distances
+        cat $driver_trip/duration >> $driver/durations
     done
 done

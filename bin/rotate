@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -o pipefail
+
 data=$DTA_DATA
 
 if [ ! $data ]
@@ -22,13 +25,11 @@ do
     do
         driver_trip=$driver/trip/$i
 
-        cat $driver_trip/coordinates-cartesian \
-      | bin/driver/trip/rotate-coordinates \
-      > $driver_trip/coordinates-rotated
-
-        if [ $? != 0 ]
+        if [ ! -f $driver_trip/coordinates-rotated ]
         then
-            echo "Problem with $driver_trip" >&2;
+            cat $driver_trip/coordinates \
+          | bin/util/rotate-coordinates \
+          > $driver_trip/coordinates-rotated
         fi
     done
 done

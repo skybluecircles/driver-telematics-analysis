@@ -1,0 +1,64 @@
+#!/bin/bash
+
+if hash cpanm >/dev/null 2>&1
+then
+    have_cpanm=1
+fi
+
+cat <<question
+This application depends on some CPAN modules.
+
+Do you want me to install them? [Y/n]
+question
+
+read response
+
+if [ $response == 'Y' ]
+then
+    while read dependency
+    do
+        perl -e "use $dependency" 2>/dev/null
+
+        if [ $? != 0 ]
+        then
+            if [ $have_cpanm ]
+            then
+                cpanm $dependency
+            else
+                cpan $dependency
+            fi
+
+            perl -e "use $dependency" 2>/dev/null
+
+            if [ $? != 0 ]
+            then
+                echo "Module installation failed ($dependency)" >&2
+                exit 1
+            fi
+        fi
+    done < cpan.dependencies
+else
+    echo "No problem, they are all in ./cpan.depencies"
+fi
+
+if ! hash Rscript >/dev/null 2>&1
+then
+    "Please install R: http://cran.r-project.org/" >&2
+    exit 1
+fi
+
+if ! hash cc >/dev/null 2>&1
+then
+    cat >&2 <<message
+I need to be able to call a C compiler with the command (cc)
+
+If you already have a C compiler installed, please create a
+link to it from "cc".
+
+If you don't already have a C compiler installed, please
+install one.
+message
+    exit 1
+fi
+
+prove t/integration/install-dependencies.t

@@ -3,13 +3,6 @@ use Mojolicious::Lite;
 use strict;
 use warnings;
 
-use lib './lib';
-
-use DTA qw(
-    next_driver_trip_by_homebody_distance
-    prev_driver_trip_by_homebody_distance
-);
-
 helper next_trip => sub {
     my $c    = shift;
     my $trip = shift;
@@ -27,22 +20,6 @@ helper prev_trip => sub {
 };
 
 get '/' => 'index';
-
-get '/driver/:driver/trip/:trip/:path/order-by/homebody-distance' => sub {
-    my $c      = shift;
-    my $driver = $c->stash( 'driver' );
-    my $trip   = $c->stash( 'trip' );
-    my $path   = $c->stash( 'path' );
-    $c->render(
-        next => '../../'
-            . next_driver_trip_by_homebody_distance( $driver, $trip ),
-        prev => '../../'
-            . prev_driver_trip_by_homebody_distance( $driver, $trip ),
-        img      => "../../$path.svg",
-        template => $path,
-        path     => "$path/order-by/homebody-distance",
-    );
-};
 
 get '/driver/:driver/trip/:trip/:path' => sub {
     my $c    = shift;
@@ -105,35 +82,21 @@ __DATA__
         </td>
       </tr>
       <tr>
+        <td> &nbsp; </td>
+        <td> <a href="driver/1/trip/1/coordinates-orig-rotated" class="links"> > rotated-coordinates</a> </td>
+      </tr>
+      <tr>
         <td width="25px"> &nbsp; </td>
-        <td> <a href="driver/1/trip/1/orig-rotated-coordinates" class="links"> > orig-rotated-coordinates</a> </td>
-      </tr>
-      <tr>
-        <td> &nbsp; </td>
-        <td> <a href="driver/1/trip/1/rotated-coordinates" class="links"> > rotated-coordinates</a> </td>
-      </tr>
-      <tr>
-        <td> &nbsp; </td>
-        <td> <a href="driver/1/trip/1/rotated-coordinates-with-calipers" class="links"> > rotated-coordinates-with-calipers</a> </td>
-      </tr>
-      <tr>
-        <td> &nbsp; </td>
-        <td> <a href="driver/1/trip/1/rotated-coordinates-just-calipers" class="links"> > rotated-coordinates-just-calipers</a> </td>
+        <td> <a href="driver/1/trip/1/coordinates-rotated" class="links"> > orig-rotated-coordinates</a> </td>
       </tr>
       </table>
   </body>
 </html>
 
-@@ rotated-coordinates-just-calipers.html.ep
+@@ coordinates-rotated.html.ep
 % layout 'image-loop'
 
-@@ rotated-coordinates-with-calipers.html.ep
-% layout 'image-loop'
-
-@@ rotated-coordinates.html.ep
-% layout 'image-loop'
-
-@@ orig-rotated-coordinates.html.ep
+@@ coordinates-orig-rotated.html.ep
 % layout 'image-loop'
 
 @@ layouts/image-loop.html.ep
