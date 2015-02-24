@@ -5,8 +5,14 @@ use warnings;
 
 use autodie qw(:all);
 
-use Sub::Exporter -setup=> {
-    exports => [qw(next_driver prev_driver)],
+use Regexp::Common qw(number);
+use Sub::Exporter -setup => {
+    exports => [
+        qw(
+            next_driver next_trip
+            prev_driver prev_trip
+            )
+    ],
 };
 
 my %drivers_index;
@@ -15,7 +21,10 @@ my %indicies_driver;
 my $max_index;
 my $min_index = 0;
 
-_build();
+build_indicies();
+
+my $first_trip = 1;
+my $last_trip = 200;
 
 sub next_driver {
     my $driver = shift;
@@ -28,6 +37,17 @@ sub next_driver {
     }
 
     return $indicies_driver{$min_index};
+}
+
+sub next_trip {
+    my $trip = shift;
+
+    validate_trip($trip);
+
+    if ( $trip < $last_trip ) {
+        return $trip + 1;
+    }
+    return $first_trip;
 }
 
 sub prev_driver {
@@ -43,7 +63,28 @@ sub prev_driver {
     return $indicies_driver{$max_index};
 }
 
-sub _build {
+sub prev_trip {
+    my $trip = shift;
+
+    validate_trip($trip);
+
+    if ( $trip > $first_trip ) {
+        return $trip - 1;
+    }
+    return $last_trip;
+}
+
+sub validate_trip {
+    my $trip = shift;
+
+    unless ( $trip =~ qr/^$RE{num}{int}$/ && $trip >= $first_trip && $trip <= $last_trip )
+    {
+        die
+            "Trip ($trip) is invalid. Must be an int between $first_trip and $last_trip, inclusive";
+    }
+}
+
+sub build_indicies {
     my $index;
     my $file = 'sorted-driver-ids';
     open( my $in, '<', $file ) || die "Could not open file ($file): $!";

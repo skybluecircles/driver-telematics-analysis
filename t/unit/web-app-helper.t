@@ -3,9 +3,12 @@ use warnings;
 
 use Test::More;
 use Test::Fatal;
-use DTA::WebApp::Helper qw(next_driver prev_driver);
+use DTA::WebApp::Helper qw(
+    next_driver next_trip
+    prev_driver prev_trip
+);
 
-VALID: {
+VALID_DRIVER: {
 
     my @tests = (
         {
@@ -46,7 +49,7 @@ VALID: {
     }
 }
 
-INVALID: {
+INVALID_DRIVER: {
 
     my @non_existant_drivers = qw( 5 700 5000 );
 
@@ -61,6 +64,52 @@ INVALID: {
             exception { prev_driver($driver) },
             qr/^No index for driver/,
             'Prev for non-existant driver raises exception'
+        );
+    }
+}
+
+VALID_TRIP: {
+
+    my @tests = (
+        {
+            trip => 1,
+            next => 2,
+            prev => 200,
+        },
+        {
+            trip => 15,
+            next => 16,
+            prev => 14,
+        },
+        {
+            trip => 200,
+            next => 1,
+            prev => 199,
+        },
+    );
+
+    foreach my $test (@tests) {
+        my $trip = $test->{trip};
+        is( next_trip($trip), $test->{next}, "Found next trip for ($trip)" );
+        is( prev_trip($trip), $test->{prev}, "Found prev trip for ($trip)" );
+    }
+}
+
+INVALID_TRIP: {
+
+    my @invalid_trips = ( 201, 15.2, -5, 0, q{}, 'abc' );
+
+    foreach my $trip (@invalid_trips) {
+        like(
+            exception { next_trip($trip) },
+            qr/^Trip \($trip\) is invalid\./,
+            'Next for invalid trip raises exception',
+        );
+
+        like(
+            exception { prev_trip($trip) },
+            qr/^Trip \($trip\) is invalid\./,
+            'Prev for invalid trip raises exception',
         );
     }
 }

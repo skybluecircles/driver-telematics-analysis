@@ -3,7 +3,10 @@ use Mojolicious::Lite;
 use strict;
 use warnings;
 
-use DTA::WebApp::Helper qw(next_driver prev_driver);
+use DTA::WebApp::Helper qw(
+    next_driver next_trip
+    prev_driver prev_trip
+);
 
 get 'driver/:driver/:path' => sub {
     my $c      = shift;
@@ -17,11 +20,27 @@ get 'driver/:driver/:path' => sub {
     );
 };
 
+get 'driver/:driver/trip/:trip/:path' => sub {
+    my $c      = shift;
+    my $driver = $c->stash( 'driver' );
+    my $trip   = $c->stash( 'trip' );
+    my $path   = $c->stash( 'path' );
+    $c->render(
+        next     => next_trip( $trip ),
+        prev     => prev_trip( $trip ),
+        img      => "$path.svg",
+        template => $path,
+    );
+};
+
 app->start;
 
 __DATA__
 
 @@ pin-wheel.html.ep
+% layout 'image-loop'
+
+@@ orig-rotated-coordinates.html.ep
 % layout 'image-loop'
 
 @@ layouts/image-loop.html.ep
