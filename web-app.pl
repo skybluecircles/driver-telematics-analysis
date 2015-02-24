@@ -43,6 +43,9 @@ __DATA__
 @@ orig-rotated-coordinates.html.ep
 % layout 'image-loop'
 
+@@ rotated-coordinates.html.ep
+% layout 'image-loop'
+
 @@ layouts/image-loop.html.ep
 <!DOCTYPE html>
 <html>
