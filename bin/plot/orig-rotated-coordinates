@@ -30,7 +30,7 @@ do
 
             if [ ! -f $driver_trip/orig-rotated-coordinates.svg ]
             then
-                Rscript bin/plot/driver/trip/orig-rotated-coordinates $driver $trip
+                Rscript bin/plot/util/orig-rotated-coordinates.R $driver $trip
             fi
         done
     fi

@@ -3,7 +3,7 @@
 source("bin/util/driver-trip-args.R")
 source("bin/util/data.R")
 
-original <- driver_trip_csv( driver_id, trip_id, "coordinates-cartesian" )
+original <- driver_trip_csv( driver_id, trip_id, "coordinates" )
 rotated  <- driver_trip_csv( driver_id, trip_id, "coordinates-rotated" )
 
 combined <- data.frame( x = c( original[[1]], rotated[[1]] ), y = c( original[[2]], rotated[[2]] ) )
