@@ -46,3 +46,28 @@ And [visualize](http://127.0.0.1:3000/driver/1/pin-wheel) what you've done.
 * 'l' moves to the next driver
 
 *You'll need to have created the plot for any driver you want to look at.*
+
+## Working with the data
+
+Now you can begin working with the data.
+
+### Rotation
+
+To rotate the coordinates for each trip such that the furthest point from the origin faces due north, issue:
+
+```
+$ bin/rotate 1
+```
+
+This normalizes the direction of a driver's trips and helps compare the path of one trip to another.
+
+Now, plot what you've done:
+
+```
+$ bin/plot/orig-rotated-coordinates 1
+$ bin/plot/rotated-coordinates 1
+```
+
+And visualize it:
+* [orig-rotated-coorindates](http://127.0.0.1:3000/driver/1/trip/1/orig-rotated-coordinates)
+* [rotated-coordinates](http://127.0.0.1:3000/driver/1/trip/1/rotated-coordinates)
