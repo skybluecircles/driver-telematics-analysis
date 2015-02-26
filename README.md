@@ -14,7 +14,6 @@ Then run the commands below.
 $ bin/environment
 $ bin/setup-data
 $ bin/util/install-dependencies
-$ bin/compile
 $ prove t/integration/*
 ```
 

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cc -lm src/distances.c src/geometry.c -o bin/util/distances

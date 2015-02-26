@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Compiling rotate-coordinates"
+bin/compile/rotate-coordinates
+
+echo "Compiling distances"
+bin/compile/distances
