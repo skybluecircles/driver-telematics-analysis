@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cc -lm src/rotate-coordinates.c src/geometry.c -o bin/util/rotate-coordinates
