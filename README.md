@@ -53,9 +53,10 @@ Now you can begin working with the data.
 
 ### Rotation
 
-To rotate the coordinates for each trip such that the furthest point from the origin faces due north, issue:
+To rotate the coordinates for each trip such that the furthest point from the origin faces due north:
 
 ```
+$ bin/compile/rotate-coordinates
 $ bin/rotate 1
 ```
 
