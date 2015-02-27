@@ -19,7 +19,7 @@ do
     if [ ! -d $driver ]
     then
         echo "Driver directory does not exisit: $driver" >&2
-        exit 1;
+        exit 1
     fi
 
     for i in {1..200}
