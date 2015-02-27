@@ -25,11 +25,8 @@ do
     do
         driver_trip=$driver/trip/$i
 
-        if [ ! -f $driver_trip/coordinates-rotated ]
-        then
-            cat $driver_trip/coordinates \
-          | bin/util/rotate-coordinates \
-          > $driver_trip/coordinates-rotated
-        fi
+        cat $driver_trip/coordinates \
+      | bin/util/rotate-coordinates \
+      > $driver_trip/coordinates-rotated
     done
 done
