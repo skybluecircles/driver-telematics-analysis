@@ -28,10 +28,9 @@ do
         do
             driver_trip=$path/trip/$trip
 
-            if [ ! -f $driver_trip/orig-rotated-coordinates.svg ]
-            then
-                Rscript bin/plot/util/orig-rotated-coordinates.R $driver $trip
-            fi
+            echo "$driver,$trip"
+
+            Rscript bin/plot/util/orig-rotated-coordinates.R $driver $trip
         done
     fi
 done
