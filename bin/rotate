@@ -15,6 +15,7 @@ driver_id=${1-1}
 
 for driver in $data/driver/$driver_id
 do
+    driver_id=`basename $driver`
     if [ ! -d $driver ]
     then
         echo "Driver directory does not exisit: $driver" >&2
@@ -24,6 +25,8 @@ do
     for i in {1..200}
     do
         driver_trip=$driver/trip/$i
+
+        echo "$driver_id,$i"
 
         cat $driver_trip/coordinates \
       | bin/util/rotate-coordinates \
