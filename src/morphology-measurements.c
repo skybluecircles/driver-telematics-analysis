@@ -20,20 +20,12 @@
      < driver/X/trip/Y/morphology-points \
      > driver/X/trip/Y/width \
     3> driver/X/trip/Y/max_distance_from_origin
-
-   note: you *must* do something with fd3 or you'll
-   segfault
 */
 
-int fdopen_s( FILE *fh, int fd, char mode );
 struct point_c next_point ();
 
 int main ()
 {
-    FILE *fd3;
-
-    fdopen_s( *fd3, 3, "w" );
-
     struct point_c left_most, furthest, right_most;
     double width, max_distance_from_origin;
 
@@ -45,26 +37,7 @@ int main ()
     max_distance_from_origin = furthest.y;
 
     printf( "%f\n", width );
-    dprintf( fd3, "%f\n", max_distance_from_origin );
-
-    fclose(fd3);
-}
-
-int fdopen_s
-(
-    FILE *fh,
-    int fd,
-    char mode
-)
-{
-    fh = fdopen_s( fd, mode );
-
-    if ( fh == NULL ) {
-         fprintf( stderr, "Could not open fd (%d) with mode (%c): %d\n", fd, mode, errno );
-         exit(1);
-    }
-
-    return 0;
+    dprintf( 3, "%f\n", max_distance_from_origin );
 }
 
 struct point_c c;

@@ -31,25 +31,24 @@ do
       < $driver_trip/coordinates-rotated \
       > $driver_trip/morphology-points
 
-      if [ $? != 0 ]
-      then
-          echo "bin/util/morphology-points exited non-zero" >&2
-          exit 1
-      fi
+        if [ $? != 0 ]
+        then
+            echo "bin/util/morphology-points exited non-zero" >&2
+            exit 1
+        fi
 
-       # measure them
+        # measure them
 
         bin/util/morphology-measurements \
       < $driver_trip/morphology-points \
       > $driver_trip/width \
      3> $driver_trip/max-distance-from-origin
 
-      if [ $? != 0 ]
-      then
-          echo "Problem calculating morphology-measurements: $?" >&2
-          echo "Error message is in: $driver_trip/max-distance-from-origin" >&2
-          exit 1
-      fi
+        if [ $? != 0 ]
+        then
+            echo "bin/util/morphology-measurements exited non-zero" >&2
+            exit 1
+        fi
     done
 done
 
