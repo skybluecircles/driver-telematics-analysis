@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -o pipefail
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo "Please define the environment variable DTA_DATA" >&2
+    exit 1
+fi
+
+driver_id=${1-1}
+
+for driver in $data/driver/$driver_id
+do
+    driver_id=`basename $driver`
+
+    if [ ! -d $driver ]
+    then
+        echo "No directory for ($driver)" >&2
+        exit 1
+    fi
+
+    for i in {1..200}
+    do
+        echo "$driver_id,$i"
+        driver_trip=$driver/trip/$i
+
+        cat $driver_trip/coordinates-rotated \
+      | bin/util/morphology \
+      > $driver_trip/morphology
+    done
+done
+
