@@ -38,13 +38,13 @@ app->start;
 __DATA__
 
 @@ pin-wheel.html.ep
-% layout 'image-loop'
+% layout 'image-loop', action => undef
 
 @@ orig-rotated-coordinates.html.ep
-% layout 'image-loop'
+% layout 'image-loop', action => undef
 
 @@ rotated-coordinates.html.ep
-% layout 'image-loop'
+% layout 'image-loop', action => undef
 
 @@ morphology.html.ep
 %layout 'image-loop', action => 'morphology-with-coordinates'
