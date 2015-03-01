@@ -46,6 +46,12 @@ __DATA__
 @@ rotated-coordinates.html.ep
 % layout 'image-loop'
 
+@@ morphology.html.ep
+%layout 'image-loop', action => 'morphology-with-coordinates'
+
+@@ morphology-with-coordinates.html.ep
+%layout 'image-loop', action => 'morphology'
+
 @@ layouts/image-loop.html.ep
 <!DOCTYPE html>
 <html>
@@ -54,6 +60,9 @@ __DATA__
     <script>
       shortcut.add( "j", function() {
           document.getElementById('prev').click();
+      });
+      shortcut.add( "k", function() {
+          document.getElementById('action').click();
       });
       shortcut.add( "l", function() {
           document.getElementById('next').click();
@@ -73,7 +82,8 @@ __DATA__
           </a>
         </td>
         <td width="20%">
-          <a href="../<%= $next%>/<%= $path %>" id="next">
+          <a href="<%= $action %>" id="action"></a>
+          <a href="../<%= $next %>/<%= $path %>" id="next">
             <h1><img src="/img/right-arrow.png" height="132" align="middle"></h1>
           </a>
         </td>
