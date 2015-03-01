@@ -28,7 +28,7 @@ do
         driver_trip=$driver/trip/$i
 
         cat $driver_trip/coordinates-rotated \
-      | bin/util/morphology \
+      | bin/util/morphology-points \
       > $driver_trip/morphology-points
     done
 done
