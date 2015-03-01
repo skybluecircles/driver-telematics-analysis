@@ -6,5 +6,8 @@ bin/compile/rotate-coordinates
 echo "Compiling distances"
 bin/compile/distances
 
-echo "Compiling morpology"
-bin/compile/morphology
+echo "Compiling morpology-points"
+bin/compile/morphology-points
+
+echo "Compiling morphology-measurements"
+bin/compile/morphology-measurements

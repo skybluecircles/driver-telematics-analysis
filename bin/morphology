@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -o pipefail
-
 data=$DTA_DATA
 
 if [ ! $data ]
@@ -27,9 +25,31 @@ do
         echo "$driver_id,$i"
         driver_trip=$driver/trip/$i
 
-        cat $driver_trip/coordinates-rotated \
-      | bin/util/morphology-points \
+        # find the morphologic points
+
+        bin/util/morphology-points \
+      < $driver_trip/coordinates-rotated \
       > $driver_trip/morphology-points
+
+      if [ $? != 0 ]
+      then
+          echo "bin/util/morphology-points exited non-zero" >&2
+          exit 1
+      fi
+
+       # measure them
+
+        bin/util/morphology-measurements \
+      < $driver_trip/morphology-points \
+      > $driver_trip/width \
+     3> $driver_trip/max-distance-from-origin
+
+      if [ $? != 0 ]
+      then
+          echo "Problem calculating morphology-measurements: $?" >&2
+          echo "Error message is in: $driver_trip/max-distance-from-origin" >&2
+          exit 1
+      fi
     done
 done
 

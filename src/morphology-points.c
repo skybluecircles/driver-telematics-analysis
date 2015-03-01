@@ -6,7 +6,8 @@
 #define MAX_LINE 256
 #define FS ','
 
-int main() {
+int main()
+{
     char l[MAX_LINE];
     struct point_c c, furthest_from_origin, left_most, right_most;
     int i;
