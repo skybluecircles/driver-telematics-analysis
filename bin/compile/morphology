@@ -1,3 +1,5 @@
 #!/bin/bash
 
-cc src/morphology.c src/geometry.c -lm -o bin/util/morphology
+cc src/morphology-points.c src/geometry.c -lm -o bin/util/morphology-points
+
+cc src/morphology-measurements.c src/geometry.c -lm -o bin/util/morphology-measurements

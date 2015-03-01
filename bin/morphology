@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 set -o pipefail
 
 data=$DTA_DATA
@@ -27,9 +28,12 @@ do
         echo "$driver_id,$i"
         driver_trip=$driver/trip/$i
 
-        cat $driver_trip/coordinates-rotated \
-      | bin/util/morphology \
-      > $driver_trip/morphology-points
+        bin/util/morphology-points \
+      < $driver_trip/coordinates-rotated \
+      | tee $driver_trip/morphology-points \
+      | bin/util/morphology-measurements \
+      > $driver_trip/width \
+     3> $driver_trip/max_distance_from_origin
+
     done
 done
-
