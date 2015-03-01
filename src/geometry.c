@@ -52,7 +52,34 @@ struct point_c l_to_c
     return c;
 }
 
-struct point_p c_to_p
+int print_point_c
+(
+    struct point_c c,
+    char FS
+)
+{
+    if ( printf("%f%c%f\n", c.x, FS, c.y ) < 0 ) {
+       fprintf( stderr, "Problem printing point: %d\n", errno );
+       exit(1);
+    }
+    else {
+        return 0;
+    }
+}
+
+int check_point_c
+(
+    struct point_c a,
+    int line_no,
+    char *line
+)
+{
+    if ( ! a.ok ) {
+        fprintf( stderr, "Problem creating point from line %d: %s", line_no, line );
+        exit(1);
+    }
+    return 0;
+}struct point_p c_to_p
 (
     struct point_c c
 )
