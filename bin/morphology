@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -e
 set -o pipefail
 
 data=$DTA_DATA
@@ -12,25 +11,20 @@ then
 fi
 
 driver_id=${1-1}
-first_trip=${2-1}
-last_trip=${3-200}
-
-if [ $last_trip -gt 200 ]
-then
-    echo "Max value for \$3 (last_trip) is 200 but you passed ($last_trip)" >&2
-    exit 1
-fi
 
 for driver in $data/driver/$driver_id
 do
+    driver_id=`basename $driver`
+
     if [ ! -d $driver ]
     then
         echo "No directory for ($driver)" >&2
         exit 1
     fi
 
-    for (( i=$first_trip; i<=$last_trip; i++ ))
+    for i in {1..200}
     do
+        echo "$driver_id,$i"
         driver_trip=$driver/trip/$i
 
         cat $driver_trip/coordinates-rotated \
