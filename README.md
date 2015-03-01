@@ -81,3 +81,9 @@ Now that you've rotated the coordinates, you can reduce the trip to 4 points.
 $ bin/compile/morphology
 $ bin/morphology 1
 ```
+
+And plot what you've done:
+
+```
+$ bin/plot/morphology
+```
