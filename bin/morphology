@@ -29,7 +29,7 @@ do
 
         cat $driver_trip/coordinates-rotated \
       | bin/util/morphology \
-      > $driver_trip/morphology
+      > $driver_trip/morphology-points
     done
 done
 
