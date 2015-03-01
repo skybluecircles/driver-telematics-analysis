@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -o pipefail
+
 data=$DTA_DATA
 
 if [ ! $data ]
@@ -25,30 +28,12 @@ do
         echo "$driver_id,$i"
         driver_trip=$driver/trip/$i
 
-        # find the morphologic points
-
         bin/util/morphology-points \
       < $driver_trip/coordinates-rotated \
-      > $driver_trip/morphology-points
-
-        if [ $? != 0 ]
-        then
-            echo "bin/util/morphology-points exited non-zero" >&2
-            exit 1
-        fi
-
-        # measure them
-
-        bin/util/morphology-measurements \
-      < $driver_trip/morphology-points \
+      | tee $driver_trip/morphology-points \
+      | bin/util/morphology-measurements \
       > $driver_trip/width \
-     3> $driver_trip/max-distance-from-origin
+     3> $driver_trip/max_distance_from_origin
 
-        if [ $? != 0 ]
-        then
-            echo "bin/util/morphology-measurements exited non-zero" >&2
-            exit 1
-        fi
     done
 done
-

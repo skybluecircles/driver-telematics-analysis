@@ -94,3 +94,5 @@ And visualize it:
 * http://127.0.0.1:3000/driver/1/trip/1/morphology-with-coordinates
 
 "*k*" toggles between the two
+
+*Note: you also calculated the "width" and "max_distance_from_origin" or each trip.*
