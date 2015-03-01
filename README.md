@@ -72,3 +72,12 @@ $ bin/plot/rotated-coordinates 1
 And visualize it:
 * [orig-rotated-coorindates](http://127.0.0.1:3000/driver/1/trip/1/orig-rotated-coordinates)
 * [rotated-coordinates](http://127.0.0.1:3000/driver/1/trip/1/rotated-coordinates)
+
+### Morphology
+
+Now that you've rotated the coordinates, you can reduce the trip to 4 points.
+
+```
+$ bin/compile/morphology
+$ bin/morphology 1
+```
