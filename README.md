@@ -93,4 +93,4 @@ And visualize it:
 * http://127.0.0.1:3000/driver/1/trip/1/morphology
 * http://127.0.0.1:3000/driver/1/trip/1/morphology-with-coordinates
 
-"k" toggles between the two
+"*k*" toggles between the two
