@@ -36,11 +36,16 @@ do
         echo "$driver_id,$i"
         driver_trip=$driver/trip/$i
 
-        cat $driver_trip/coordinates \
-      | bin/util/distances \
+        bin/util/distances \
+      < $driver_trip/coordinates \
       | tee $driver_trip/distances \
       | bin/util/accelerations \
       > $driver_trip/accelerations
+
+        bin/util/distance-duration \
+      < $driver_trip/distances \
+      > $driver_trip/distance \
+     3> $driver_trip/duration
 
     done
 done

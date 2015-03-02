@@ -1,3 +1,0 @@
-#!/bin/bash
-
-cc src/accelerations.c -o bin/util/accelerations

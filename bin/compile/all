@@ -1,13 +1,10 @@
 #!/bin/bash
 
-echo "rotate-coordinates"
+echo "rotate"
 bin/compile/rotate-coordinates
 
-echo "distances"
+echo "distance"
 bin/compile/distances
-
-echo "accelerations"
-bin/compile/accelerations
 
 echo "morpology"
 bin/compile/morphology
