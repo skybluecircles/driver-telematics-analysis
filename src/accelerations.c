@@ -5,56 +5,98 @@
 
 #define MAX_LINE 256
 
-int next_double( double *d );
+int fgetd
+(
+    double *d,
+    FILE *fh
+)
+;
+
+char *fgets_s
+(
+    char *line,
+    int size,
+    FILE *fh
+);
+
+double strtod_s
+(
+    char *nptr,
+    char *endptr
+);
 
 int main ()
 {
     double prev;
     double current;
 
-    if ( next_double(&prev) == 0 ) {
+    if ( fgetd( &prev, stdin ) == 0 ) {
         fprintf( stderr, "Problem reading first line of stdin. Did you cat an empty file?\n" );
         exit(1);
     }
 
-    while( next_double(&current) != 0 )
+    while( fgetd( &current, stdin ) != 0 )
     {
         printf( "%f\n", current - prev );
         prev = current;
     }
+
+    return 0;
 }
 
-
-int next_double
+int fgetd
 (
-    double *d
+    double *d,
+    FILE *fh
 )
 {
-    char l[MAX_LINE];
-    char *rv;
+    char line[MAX_LINE];
     char *endptr;
 
-    rv = fgets( l, MAX_LINE, stdin );
+    if( fgets_s( line, MAX_LINE, fh ) == NULL )
+        return 0;
 
-    if( rv == NULL ) { /* need to distinguish between eof and error */
-        if ( errno != 0 || ferror(stdin) != 0 ) {
-            fprintf( stderr, "Problem reading from stdin\n" );
-            exit(1);
-        }
-        else {
-            return 0;
-        }
+    *d = strtod_s( line, endptr );
+
+    return 1;
+}
+
+char *fgets_s
+(
+    char *line,
+    int size,
+    FILE *fh
+)
+{
+    char *rv;
+
+    rv = fgets( line, MAX_LINE, fh );
+
+    if( rv == NULL && ( errno != 0 | ferror(fh) != 0 ) ) {
+        fprintf( stderr, "Problem reading from fh\n" );
+        exit(1);
     }
 
-    *d = strtod( l, &endptr );
+    return rv;
+}
+
+double strtod_s
+(
+    char *nptr,
+    char *endptr
+)
+{
+    double d;
+
+    d = strtod( nptr, &endptr );
 
     if( errno == ERANGE ) {
         fprintf( stderr, "Warning: overflow or underflow when converting line to point\n" );
     }
-    if ( errno == ERANGE || endptr == l || ( *endptr != '\0' && *endptr != '\n' && *endptr != EOF ) ) {
-        fprintf( stderr, "Error converting line (%s) to double\n", l );
+    if ( errno == ERANGE || endptr == nptr || ( *endptr != '\0' && *endptr != '\n' && *endptr != EOF ) ) {
+        fprintf( stderr, "Error converting line (%s) to double\n", nptr );
         exit(1);
     }
 
-    return 1;
+    return d;
 }

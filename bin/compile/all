@@ -6,5 +6,8 @@ bin/compile/rotate-coordinates
 echo "distances"
 bin/compile/distances
 
+echo "accelerations"
+bin/compile/accelerations
+
 echo "morpology"
 bin/compile/morphology
