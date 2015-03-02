@@ -4,10 +4,10 @@
 
 int main ()
 {
-    double prev;
-    double current;
+    double prev, current;
 
-    if ( fgetd( &prev, stdin ) == 0 ) {
+    if ( fgetd( &prev, stdin ) == 0 )
+    {
         fprintf( stderr, "Problem reading first line of stdin. Did you cat an empty file?\n" );
         exit(1);
     }
