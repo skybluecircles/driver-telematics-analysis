@@ -38,6 +38,8 @@ int main ()
 
     printf( "%f\n", width );
     dprintf( 3, "%f\n", max_distance_from_origin );
+
+    return 0;
 }
 
 struct point_c c;

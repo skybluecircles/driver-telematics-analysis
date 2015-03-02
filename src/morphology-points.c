@@ -42,4 +42,6 @@ int main()
     print_point_c( left_most, FS );
     print_point_c( furthest_from_origin, FS );
     print_point_c( right_most, FS );
+
+    return 0;
 }

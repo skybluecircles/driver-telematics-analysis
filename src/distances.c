@@ -33,6 +33,8 @@ int main () {
         a = b;
         i++;
     }
+
+    return 0;
 }
 
 int check_point
