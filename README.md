@@ -98,15 +98,16 @@ And visualize it:
 *Note: you also calculated the "width" and "max_distance_from_origin" for each trip.*
 
 
-### Distances / Acceleration
+### Distances / Acceleration / Duration
 
 We can derive the distance between each point and how much more (or less) the driver traveled between one interval and the next:
 
 ```
-$ bin/compile/distances
-$ bin/compile/accelerations
-$ bin/distances-accelerations 1
+$ bin/compile/distance
+$ bin/distance 1
 ```
+
+This will also give us the total distance and duration for each trip along with the acceleration between each interval.
 
 ## Generating Features
 
