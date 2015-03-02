@@ -96,3 +96,11 @@ And visualize it:
 "*k*" toggles between the two
 
 *Note: you also calculated the "width" and "max_distance_from_origin" for each trip.*
+
+## Generating Features
+
+Let's generate some features:
+
+```
+$ bin/features 1
+```
