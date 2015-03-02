@@ -96,3 +96,18 @@ And visualize it:
 "*k*" toggles between the two
 
 *Note: you also calculated the "width" and "max_distance_from_origin" for each trip.*
+
+## Generating Features
+
+Let's generate some features:
+
+```
+$ bin/features 1
+```
+
+This will amalgamate the features for each of a given driver's trips into single files.
+
+```
+$ ls $DTA_DATA/driver/1
+$ cat $DTA_DATA/driver/1/width     # just one example
+```
