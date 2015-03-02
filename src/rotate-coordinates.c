@@ -66,4 +66,6 @@ int main ()
 
         printf( "%f,%f\n", c.x, c.y );
     }
+
+    return 0;
 }
