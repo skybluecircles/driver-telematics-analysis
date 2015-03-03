@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cc src/rotation-between-angles.c src/io.c src/geometry.c -lm -o bin/util/rotation-between-angles
+
+prove t/unit/rotation-between-angles.c
