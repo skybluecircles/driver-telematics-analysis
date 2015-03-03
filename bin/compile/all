@@ -1,10 +1,14 @@
 #!/bin/bash
 
-echo "rotate"
-bin/compile/rotate-coordinates
+programs=(
+    rotate-coordinates
+    distances
+    morphology
+    interval-rotation
+)
 
-echo "distance"
-bin/compile/distances
-
-echo "morpology"
-bin/compile/morphology
+for program in ${programs[@]}
+do
+    echo $program
+    bin/compile/$program
+done
