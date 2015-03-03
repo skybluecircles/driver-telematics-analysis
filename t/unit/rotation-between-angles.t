@@ -37,7 +37,7 @@ QUADRANT_TESTS: {
             foreach my $test ( @{ $quadrant_test->{tests} } ) {
                 my $current = $test->{current};
 
-                my $rotation = get_rotation_between_intervals( $prev, $current );
+                my $rotation = rotation_between_angles( $prev, $current );
 
                 my $message = sprintf(
                     'Calculated rotation between angles for (%d) and (%d)',
@@ -49,7 +49,7 @@ QUADRANT_TESTS: {
     }
 }
 
-sub get_rotation_for_interval {
+sub rotation_between_angles {
     my $prev    = shift;
     my $current = shift;
 
