@@ -28,7 +28,9 @@ do
         echo "$driver_id,$i"
         dir=$data/driver/$driver_id/trip/$i
 
-        bin/util/rotation-for-interval \
-      < $dir/coordinates
+        bin/util/interval-angle \
+      < $dir/coordinates \
+      | bin/util/rotation-between-angles
+
     done
 done
