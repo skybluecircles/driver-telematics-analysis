@@ -5,86 +5,89 @@ use Math::Trig;
 use Test::More;
 use Test::Number::Delta;
 
-my @origin = ( 0, 0 );
-my $origin_as_str = point_to_str(\@origin);
+QUADRANT_TESTS: {
 
-my @quadrant_tests = (
-    {
-        quadrant => 1,
-        prev => [ 1, 1 ],
-        tests => [
-            { current => [ 2, 1 ], expected => pi *  0 / 4 },
-            { current => [ 2, 2 ], expected => pi *  1 / 4 },
-            { current => [ 1, 2 ], expected => pi *  2 / 4 },
-            { current => [ 0, 2 ], expected => pi *  3 / 4 },
-            { current => [ 0, 1 ], expected => pi *  4 / 4 },
-            { current => [ 0, 0 ], expected => pi * -3 / 4 },
-            { current => [ 1, 0 ], expected => pi * -2 / 4 },
-            { current => [ 2, 0 ], expected => pi * -1 / 4 },
-        ],
-    },
-    {
-        quadrant => 2,
-        prev => [ -1, 1 ],
-        tests => [
-            { current => [  0, 1 ], expected => pi *  0 / 4 },
-            { current => [  0, 2 ], expected => pi *  1 / 4 },
-            { current => [ -1, 2 ], expected => pi *  2 / 4 },
-            { current => [ -2, 2 ], expected => pi *  3 / 4 },
-            { current => [ -2, 1 ], expected => pi *  4 / 4 },
-            { current => [ -2, 0 ], expected => pi * -3 / 4 },
-            { current => [ -1, 0 ], expected => pi * -2 / 4 },
-            { current => [ -0, 0 ], expected => pi * -1 / 4 },
-        ],
-    },
-    {
-        quadrant => 3,
-        prev => [ -1, -1 ],
-        tests => [
-            { current => [  0, -1 ], expected => pi *  0 / 4 },
-            { current => [  0,  0 ], expected => pi *  1 / 4 },
-            { current => [ -1,  0 ], expected => pi *  2 / 4 },
-            { current => [ -2,  0 ], expected => pi *  3 / 4 },
-            { current => [ -2, -1 ], expected => pi *  4 / 4 },
-            { current => [ -2, -2 ], expected => pi * -3 / 4 },
-            { current => [ -1, -2 ], expected => pi * -2 / 4 },
-            { current => [  0, -2 ], expected => pi * -1 / 4 },
-        ],
-    },
-    {
-        quadrant => 4,
-        prev => [ 1, -1 ],
-        tests => [
-            { current => [ 2, -1 ], expected => pi *  0 / 4 },
-            { current => [ 2,  0 ], expected => pi *  1 / 4 },
-            { current => [ 1,  0 ], expected => pi *  2 / 4 },
-            { current => [ 0,  0 ], expected => pi *  3 / 4 },
-            { current => [ 0, -1 ], expected => pi *  4 / 4 },
-            { current => [ 0, -2 ], expected => pi * -3 / 4 },
-            { current => [ 1, -2 ], expected => pi * -2 / 4 },
-            { current => [ 2, -2 ], expected => pi * -1 / 4 },
-        ],
-    },
-);
+    my @origin = ( 0, 0 );
+    my $origin_as_str = point_to_str( \@origin );
 
-foreach my $quadrant_test (@quadrant_tests) {
-    my $quadrant = $quadrant_test->{quadrant};
+    my @quadrant_tests = (
+        {
+            quadrant => 1,
+            prev     => [ 1, 1 ],
+            tests    => [
+                { current => [ 2, 1 ], expected => pi * 0 / 4 },
+                { current => [ 2, 2 ], expected => pi * 1 / 4 },
+                { current => [ 1, 2 ], expected => pi * 2 / 4 },
+                { current => [ 0, 2 ], expected => pi * 3 / 4 },
+                { current => [ 0, 1 ], expected => pi * 4 / 4 },
+                { current => [ 0, 0 ], expected => pi * -3 / 4 },
+                { current => [ 1, 0 ], expected => pi * -2 / 4 },
+                { current => [ 2, 0 ], expected => pi * -1 / 4 },
+            ],
+        },
+        {
+            quadrant => 2,
+            prev     => [ -1, 1 ],
+            tests    => [
+                { current => [ 0,  1 ], expected => pi * 0 / 4 },
+                { current => [ 0,  2 ], expected => pi * 1 / 4 },
+                { current => [ -1, 2 ], expected => pi * 2 / 4 },
+                { current => [ -2, 2 ], expected => pi * 3 / 4 },
+                { current => [ -2, 1 ], expected => pi * 4 / 4 },
+                { current => [ -2, 0 ], expected => pi * -3 / 4 },
+                { current => [ -1, 0 ], expected => pi * -2 / 4 },
+                { current => [ -0, 0 ], expected => pi * -1 / 4 },
+            ],
+        },
+        {
+            quadrant => 3,
+            prev     => [ -1, -1 ],
+            tests    => [
+                { current => [ 0,  -1 ], expected => pi * 0 / 4 },
+                { current => [ 0,  0 ],  expected => pi * 1 / 4 },
+                { current => [ -1, 0 ],  expected => pi * 2 / 4 },
+                { current => [ -2, 0 ],  expected => pi * 3 / 4 },
+                { current => [ -2, -1 ], expected => pi * 4 / 4 },
+                { current => [ -2, -2 ], expected => pi * -3 / 4 },
+                { current => [ -1, -2 ], expected => pi * -2 / 4 },
+                { current => [ 0,  -2 ], expected => pi * -1 / 4 },
+            ],
+        },
+        {
+            quadrant => 4,
+            prev     => [ 1, -1 ],
+            tests    => [
+                { current => [ 2, -1 ], expected => pi * 0 / 4 },
+                { current => [ 2, 0 ],  expected => pi * 1 / 4 },
+                { current => [ 1, 0 ],  expected => pi * 2 / 4 },
+                { current => [ 0, 0 ],  expected => pi * 3 / 4 },
+                { current => [ 0, -1 ], expected => pi * 4 / 4 },
+                { current => [ 0, -2 ], expected => pi * -3 / 4 },
+                { current => [ 1, -2 ], expected => pi * -2 / 4 },
+                { current => [ 2, -2 ], expected => pi * -1 / 4 },
+            ],
+        },
+    );
 
-    subtest "Quadrant $quadrant" => sub {
-        my $prev = $quadrant_test->{prev};
+    foreach my $quadrant_test (@quadrant_tests) {
+        my $quadrant = $quadrant_test->{quadrant};
 
-        foreach my $test ( @{ $quadrant_test->{tests} } ) {
-            my $current = $test->{current};
+        subtest "Quadrant $quadrant" => sub {
+            my $prev = $quadrant_test->{prev};
 
-            my $turn = get_rotation_for_interval( $prev, $current );
+            foreach my $test ( @{ $quadrant_test->{tests} } ) {
+                my $current = $test->{current};
 
-            my $message = sprintf(
-                'Calculated turn from (%d,%d) to (%d,%d)',
-                @{$prev}, @{$current} );
+                my $turn = get_rotation_for_interval( $prev, $current );
 
-            delta_within( $turn, $test->{expected}, 0.00001, $message );
-        }
-    };
+                my $message =
+                  sprintf( 'Calculated turn from (%d,%d) to (%d,%d)',
+                    @{$prev}, @{$current} );
+
+                delta_within( $turn, $test->{expected}, 0.00001, $message );
+            }
+        };
+    }
 }
 
 sub get_rotation_for_interval {
@@ -94,7 +97,8 @@ sub get_rotation_for_interval {
     my $prev_as_str    = point_to_str($prev);
     my $current_as_str = point_to_str($current);
 
-    my $interval_rotation = `( echo $prev_as_str; echo $current_as_str ) | bin/util/rotation-for-interval`;
+    my $interval_rotation =
+`( echo $prev_as_str; echo $current_as_str ) | bin/util/rotation-for-interval`;
 
     return $interval_rotation;
 }
