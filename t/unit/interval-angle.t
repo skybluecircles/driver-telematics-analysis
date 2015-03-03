@@ -81,13 +81,13 @@ QUADRANT_TESTS: {
             foreach my $test ( @{ $quadrant_test->{tests} } ) {
                 my $current = $test->{current};
 
-                my $turn = get_rotation_for_interval( $prev, $current );
+                my $angle = interval_angle( $prev, $current );
 
                 my $message =
                   sprintf( 'Calculated turn from (%d,%d) to (%d,%d)',
                     @{$prev}, @{$current} );
 
-                delta_within( $turn, $test->{expected}, 0.00001, $message );
+                delta_within( $angle, $test->{expected}, 0.00001, $message );
             }
         };
     }
@@ -111,19 +111,15 @@ SEQUENCE_TEST: {
         "Calculated turns for multiple points in sequence" );
 }
 
-sub get_rotation_for_interval {
+done_testing();
+
+sub interval_angle {
     my $prev    = shift;
     my $current = shift;
 
-    my $prev_as_str    = point_to_str($prev);
-    my $current_as_str = point_to_str($current);
+    my $out = join "\n", map { point_to_str($_) } $prev, $current;
 
-    my $interval_rotation =
-`( echo $prev_as_str; echo $current_as_str ) | bin/util/rotation-for-interval`;
-
-    # interval-angle
-
-    return $interval_rotation;
+    return `( echo "$out" ) | bin/util/interval-angle`;
 }
 
 sub point_to_str {
@@ -131,5 +127,3 @@ sub point_to_str {
 
     return join ',', @{$point};
 }
-
-done_testing();
