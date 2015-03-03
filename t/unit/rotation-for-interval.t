@@ -2,8 +2,11 @@ use strict;
 use warnings;
 
 use Math::Trig;
+use Test::Deep;
 use Test::More;
 use Test::Number::Delta;
+
+my $TOL = 0.00001;
 
 QUADRANT_TESTS: {
 
@@ -88,6 +91,24 @@ QUADRANT_TESTS: {
             }
         };
     }
+}
+
+SEQUENCE_TEST: {
+
+    my @sequence =
+      ( [ 0, 0 ], [ 1, 1 ], [ 0, 1 ], [ -1, 1 ], [ 0, 0 ], [ 1, -1 ] );
+
+    my $out = join "\n", map { point_to_str($_) } @sequence;
+
+    my @interval_rotations = `echo "$out" | bin/util/rotation-for-interval`;
+
+    my @expected =
+      ( pi * 1 / 4, pi * 4 / 4, pi * 4 / 4, pi * -1 / 4, pi * -1 / 4, );
+
+    my @comparison = map { num( $_, $TOL ) } @expected;
+
+    cmp_deeply( \@interval_rotations, \@comparison,
+        "Calculated turns for multiple points in sequence" );
 }
 
 sub get_rotation_for_interval {
