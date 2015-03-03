@@ -113,6 +113,33 @@ double calculate_rotation
     return M_PI_2 - angle;
 }
 
+struct point_c subtract_points_c
+(
+    struct point_c current,
+    struct point_c prev
+)
+{
+    struct point_c diff;
+
+    diff.x = current.x - prev.x;
+    diff.y = current.y - prev.y;
+
+    return diff;
+}
+
+double interval_rotation
+(
+    struct point_c current,
+    struct point_c prev
+)
+{
+    struct point_c transp;
+
+    transp = subtract_points_c( current, prev );
+
+    return atan2( transp.y, transp.x );
+}
+
 struct point_p rotate
 (
     struct point_p p,

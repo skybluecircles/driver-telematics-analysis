@@ -2,9 +2,34 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include "geometry.h"
 #include "io.h"
 
 #define MAX_LINE 256
+#define IFS ','
+
+int fget_point_c
+(
+    struct point_c * pt,
+    FILE *fh,
+    int line_no
+)
+{
+    char line[MAX_LINE];
+    char *endptr;
+
+    if( fgets_s( line, MAX_LINE, fh ) == NULL )
+        return 0;
+
+    *pt = l_to_c( line, IFS );
+
+    if( ! pt->ok ) {
+        fprintf( stderr, "Problem converting line %d to point: %s\n", line_no, line );
+        exit(1);
+    }
+
+    return 1;
+}
 
 int fgetd
 (
