@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cc src/rotation-for-interval.c src/geometry.c src/io.c -lm -o bin/util/rotation-for-interval
-prove t/unit/rotation-for-interval.t
+bin/compile/interval-angle
+bin/compile/rotation-between-angles
