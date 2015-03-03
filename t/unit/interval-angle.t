@@ -121,6 +121,8 @@ sub get_rotation_for_interval {
     my $interval_rotation =
 `( echo $prev_as_str; echo $current_as_str ) | bin/util/rotation-for-interval`;
 
+    # interval-angle
+
     return $interval_rotation;
 }
 
