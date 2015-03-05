@@ -55,6 +55,11 @@ double rotation_between_angles
     double prev
 );
 
+int clean_angle
+(
+    double * angle
+);
+
 double distance
 (
     struct point_c a,

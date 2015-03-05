@@ -159,15 +159,8 @@ double rotation_between_angles
     double inverse,
            rotation;
 
-    if ( current > PI || current < NEG_PI ) {
-        fprintf( stderr, "The current angle (%f) is > pi or < -pi\n", current );
-        exit(1);
-    }
-    else if ( prev > PI || prev < NEG_PI ) {
-        fprintf( stderr, "Your first angle (%f) was > pi or < -pi\n", prev );
-        exit(1);
-    }
-
+    clean_angle(&current);
+    clean_angle(&prev);
 
     if ( prev <= 0 ) {
         inverse = prev + PI;
@@ -176,7 +169,9 @@ double rotation_between_angles
         inverse = prev - PI;
     }
 
-    if ( prev > 0 ) { /* if prev is in quad 1 or 2 */
+    /* if prev is in quad 1 or 2 */
+
+    if ( prev > 0 ) {
         if ( current < inverse ) {
             rotation = TWO_PI - prev + current;
         }
@@ -184,7 +179,10 @@ double rotation_between_angles
             rotation = current - prev;
         }
     }
-    else { /* if prev is in quad 3 or 4 */
+
+    /* if prev is in quad 3 or 4 */
+
+    else {
         if ( current > inverse ) {
             rotation = NEG_TWO_PI - prev + current;
         }
@@ -193,28 +191,36 @@ double rotation_between_angles
         }
     }
 
-    /* dealing with small rounding error */
-
-    if ( rotation > PI ) {
-        if ( rotation <= FUDGE_PI )  {
-            rotation = PI;
-        }
-        else {
-            fprintf( stderr, "The rotation I calculated (%f) is > pi\n", rotation );
-            exit(1);
-        }
-    }
-    else if ( rotation < NEG_PI ) {
-        if ( rotation >= NEG_FUDGE_PI ) {
-            rotation = NEG_PI;
-        }
-        else {
-            fprintf( stderr, "The rotation I calculated (%f) is < pi\n", rotation );
-            exit(1);
-        }
-    }
+    clean_angle(&rotation);
 
     return rotation;
+}
+
+int clean_angle
+(
+    double * angle
+)
+{
+    if ( *angle > PI ) {
+        if ( *angle <= FUDGE_PI ) {
+            *angle = PI;
+        }
+        else {
+            fprintf( stderr, "Angle (%f) is > pi\n", *angle );
+            exit(1);
+        }
+    }
+    else if ( *angle < NEG_PI ) {
+        if ( *angle >= NEG_FUDGE_PI ) {
+            *angle = NEG_PI;
+        }
+        else {
+            fprintf( stderr, "Angle (%f) is < pi\n", *angle );
+            exit(1);
+        }
+    }
+
+    return 0;
 }
 
 struct point_p rotate
