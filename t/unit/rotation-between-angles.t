@@ -24,10 +24,9 @@ QUADRANT_TESTS: {
                 { current => pi *  8 / 8, expected => pi *  6 / 8 },
                 { current => pi * -8 / 8, expected => pi *  6 / 8 },
                 { current => pi * -7 / 8, expected => pi *  7 / 8 },
-                { current => pi * -6 / 8, expected => pi *  8 / 8 },
+                { current => pi * -6 / 8, expected => pi * -8 / 8 },
                 { current => pi *  1 / 8, expected => pi * -1 / 8 },
                 { current => pi *  0 / 8, expected => pi * -2 / 8 },
-                { current => pi *     -0, expected => pi * -2 / 8 },
                 { current => pi * -1 / 8, expected => pi * -3 / 8 },
                 { current => pi * -2 / 8, expected => pi * -4 / 8 },
                 { current => pi * -3 / 8, expected => pi * -5 / 8 },
@@ -48,14 +47,13 @@ QUADRANT_TESTS: {
                 { current => pi * -5 / 8, expected => pi *  5 / 8 },
                 { current => pi * -4 / 8, expected => pi *  6 / 8 },
                 { current => pi * -3 / 8, expected => pi *  7 / 8 },
-                { current => pi * -2 / 8, expected => pi *  8 / 8 },
+                { current => pi * -2 / 8, expected => pi * -8 / 8 },
                 { current => pi *  5 / 8, expected => pi * -1 / 8 },
                 { current => pi *  4 / 8, expected => pi * -2 / 8 },
                 { current => pi *  3 / 8, expected => pi * -3 / 8 },
                 { current => pi *  2 / 8, expected => pi * -4 / 8 },
                 { current => pi *  1 / 8, expected => pi * -5 / 8 },
                 { current => pi *  0 / 8, expected => pi * -6 / 8 },
-                { current => pi *     -0, expected => pi * -6 / 8 },
                 { current => pi * -1 / 8, expected => pi * -7 / 8 },
             ],
         },
@@ -70,17 +68,16 @@ QUADRANT_TESTS: {
                 { current => pi * -2 / 8, expected => pi *  4 / 8 },
                 { current => pi * -1 / 8, expected => pi *  5 / 8 },
                 { current => pi *  0 / 8, expected => pi *  6 / 8 },
-                { current =>          -0, expected => pi *  6 / 8 },
                 { current => pi *  1 / 8, expected => pi *  7 / 8 },
                 { current => pi *  2 / 8, expected => pi *  8 / 8 },
-                { current => pi *  3 / 8, expected => pi * -1 / 8 },
-                { current => pi *  4 / 8, expected => pi * -2 / 8 },
-                { current => pi *  5 / 8, expected => pi * -3 / 8 },
+                { current => pi * -7 / 8, expected => pi * -1 / 8 },
+                { current => pi * -8 / 8, expected => pi * -2 / 8 },
+                { current => pi *  8 / 8, expected => pi * -2 / 8 },
+                { current => pi *  7 / 8, expected => pi * -3 / 8 },
                 { current => pi *  6 / 8, expected => pi * -4 / 8 },
-                { current => pi *  7 / 8, expected => pi * -5 / 8 },
-                { current => pi *  8 / 8, expected => pi * -6 / 8 },
-                { current => pi * -8 / 8, expected => pi * -6 / 8 },
-                { current => pi * -7 / 8, expected => pi * -7 / 8 },
+                { current => pi *  5 / 8, expected => pi * -5 / 8 },
+                { current => pi *  4 / 8, expected => pi * -6 / 8 },
+                { current => pi *  3 / 8, expected => pi * -7 / 8 },
             ],
         },
         {
@@ -90,7 +87,6 @@ QUADRANT_TESTS: {
                 { current => pi * -2 / 8, expected => pi *  0 / 8 },
                 { current => pi * -1 / 8, expected => pi *  1 / 8 },
                 { current => pi *  0 / 8, expected => pi *  2 / 8 },
-                { current =>          -0, expected => pi *  2 / 8 },
                 { current => pi *  1 / 8, expected => pi *  3 / 8 },
                 { current => pi *  2 / 8, expected => pi *  4 / 8 },
                 { current => pi *  3 / 8, expected => pi *  5 / 8 },
@@ -130,6 +126,69 @@ QUADRANT_TESTS: {
     }
 }
 
+CORNER_CASES: {
+
+    my @corner_cases = (
+        {
+            problem => 'prev is 0',
+            prev => 0,
+            tests => [
+                { current => pi *  3 / 8, expected => pi *  3 / 8 },
+                { current => pi * -2 / 8, expected => pi * -2 / 8 },
+                { current => pi *  8 / 8, expected => pi *  8 / 8 },
+                { current => pi * -8 / 8, expected => pi * -8 / 8 },
+                { current => pi *  0 / 8, expected => pi *  0 / 8 },
+            ],
+        },
+        {
+            problem => 'prev is -0',
+            prev => "-0",
+            tests => [
+                { current => pi * -2 / 8, expected => pi * -2 / 8 },
+            ],
+        },
+        {
+            problem => 'prev is pi',
+            prev => pi * 8 / 8,
+            tests => [
+                { current => pi *  5 / 8, expected => pi * -3 / 8 },
+                { current => pi * -2 / 8, expected => pi *  6 / 8 },
+                { current => pi *  8 / 8, expected => pi *  0 / 8 },
+                { current => pi * -8 / 8, expected => pi *  0 / 8 },
+                { current => pi *  0 / 8, expected => pi * -8 / 8 },
+            ],
+        },
+        {
+            problem => 'prev is -pi',
+            prev => pi * -8 / 8,
+            tests => [
+                { current => pi *  5 / 8, expected => pi * -3 / 8 },
+                { current => pi * -2 / 8, expected => pi *  6 / 8 },
+                { current => pi *  8 / 8, expected => pi *  0 / 8 },
+                { current => pi * -8 / 8, expected => pi *  0 / 8 },
+                { current => pi *  0 / 8, expected => pi *  8 / 8 },
+            ],
+        },
+    );
+
+    foreach my $corner_case (@corner_cases) {
+        my $prev = $corner_case->{prev};
+
+        subtest $corner_case->{problem} => sub {
+            foreach my $test ( @{ $corner_case->{tests} } ) {
+                my $current = $test->{current};
+                my $rotation = rotation_between_angles( $prev, $current );
+
+                my $message = sprintf(
+                    'Calculated rotation between angles for (%f) and (%f)',
+                    $prev, $current );
+
+                delta_within( $rotation, $test->{expected}, $TOL, $message );
+            }
+        }
+    }
+}
+
 SEQUENCE: {
 
     my @sequence = (
@@ -144,12 +203,12 @@ SEQUENCE: {
         -0,
     );
 
-    my @rotations = rotation_between_angles(@sequence);
+    my @rotations = split "\n", rotation_between_angles(@sequence);
 
     my @expected = (
          pi *  1 / 2,
          pi *  5 / 8,
-         pi *  8 / 8,
+         pi * -8 / 8,
          pi *  0 / 8,
          pi * -3 / 8,
          pi *  2 / 8,
@@ -161,40 +220,6 @@ SEQUENCE: {
 
     cmp_deeply( \@rotations, \@comparison, "Calculated rotations beteween multiple points in sequence" );
 
-}
-
-CORNER_CASES: {
-
-    my @corner_cases = (
-        {
-            problem => 'prev is 0',
-            prev => 0,
-            tests => [
-                { current => pi * -2 / 8, expected => pi *  0 / 8 },
-            ],
-        },
-        {
-            problem => 'prev is -0',
-            prev => 0,
-            tests => [
-                { current => pi * -2 / 8, expected => pi *  0 / 8 },
-            ],
-        },
-        {
-            problem => 'prev is pi',
-            prev => pi,
-            tests => [
-                { current => pi * -2 / 8, expected => pi *  0 / 8 },
-            ],
-        },
-        {
-            problem => 'prev is -pi',
-            prev => pi,
-            tests => [
-                { current => pi * -2 / 8, expected => pi *  0 / 8 },
-            ],
-        },
-    );
 }
 
 EXCEPTIONS: {
@@ -223,13 +248,7 @@ EXCEPTIONS: {
 done_testing();
 
 sub rotation_between_angles {
-    my $out = join "\n", map { point_to_str($_) } @_;
+    my $out = join "\n", @_;
 
-    return `echo $out | bin/util/rotation-between-angles`;
-}
-
-sub point_to_str {
-    my $point = shift;
-
-    return join ',', @{$point};
+    return `echo "$out" | bin/util/rotation-between-angles`;
 }

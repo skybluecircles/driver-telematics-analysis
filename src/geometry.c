@@ -140,6 +140,73 @@ double interval_rotation
     return atan2( transp.y, transp.x );
 }
 
+double rotation_between_angles
+(
+    double current,
+    double prev
+)
+{
+    double inverse,
+           rotation;
+
+    if ( current > M_PI || current < M_PI * -1 ) {
+        fprintf( stderr, "The current angle (%f) is > pi or < -pi\n", current );
+        exit(1);
+    }
+    else if ( prev > M_PI || prev < M_PI * -1 ) {
+        fprintf( stderr, "Your first angle (%f) was > pi or < -pi\n", prev );
+        exit(1);
+    }
+
+
+    if ( prev <= 0 ) {
+        inverse = prev + M_PI;
+    }
+    else {
+        inverse = prev - M_PI;
+    }
+
+    if ( prev > 0 ) { /* if prev is in quad 1 or 2 */
+        if ( current < inverse ) {
+            rotation = ( 2 * M_PI ) - prev + current;
+        }
+        else {
+            rotation = current - prev;
+        }
+    }
+    else { /* if prev is in quad 3 or 4 */
+        if ( current > inverse ) {
+            rotation = ( -2 * M_PI ) - prev + current;
+        }
+        else {
+            rotation = current - prev;
+        }
+    }
+
+    /* dealing with small rounding error */
+
+    if ( rotation > M_PI ) {
+        if ( rotation <= ( M_PI + 0.0001 ) ) {
+            rotation = M_PI;
+        }
+        else {
+            fprintf( stderr, "The rotation I calculated (%f) is > pi\n", rotation );
+            exit(1);
+        }
+    }
+    else if ( rotation < ( -1 * M_PI ) ) {
+        if ( rotation >= ( ( -1 * M_PI ) - 0.0001 ) ) {
+            rotation = -1 * M_PI;
+        }
+        else {
+            fprintf( stderr, "The rotation I calculated (%f) is < pi\n", rotation );
+            exit(1);
+        }
+    }
+
+    return rotation;
+}
+
 struct point_p rotate
 (
     struct point_p p,
