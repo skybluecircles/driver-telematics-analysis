@@ -12,12 +12,9 @@ int main()
         exit(1);
     }
 
-    printf( "%f\n", prev );
-
     while( fgetd( &current, stdin ) != 0 )
     {
-        printf( "%f\n", current );
-        /* printf( "%f\n", rotation_between_intervals( current, prev )v ); */
+        printf( "%f\n", rotation_between_angles( current, prev ) );
         prev = current;
     }
 

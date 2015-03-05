@@ -49,6 +49,12 @@ double interval_rotation
     struct point_c prev
 );
 
+double rotation_between_angles
+(
+    double current,
+    double prev
+);
+
 double distance
 (
     struct point_c a,
