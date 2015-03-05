@@ -4,6 +4,16 @@
 #include <errno.h>
 #include "geometry.h"
 
+#define PI M_PI
+#define TOL 0.0001
+
+const double TWO_PI   = PI *  2;
+const double FUDGE_PI = PI + TOL;
+
+const double NEG_PI       = PI * -1;
+const double NEG_TWO_PI   = PI * -2;
+const double NEG_FUDGE_PI = PI * -1 - TOL;
+
 struct point_c l_to_c
 (
     char *l,
@@ -149,26 +159,26 @@ double rotation_between_angles
     double inverse,
            rotation;
 
-    if ( current > M_PI || current < M_PI * -1 ) {
+    if ( current > PI || current < NEG_PI ) {
         fprintf( stderr, "The current angle (%f) is > pi or < -pi\n", current );
         exit(1);
     }
-    else if ( prev > M_PI || prev < M_PI * -1 ) {
+    else if ( prev > PI || prev < NEG_PI ) {
         fprintf( stderr, "Your first angle (%f) was > pi or < -pi\n", prev );
         exit(1);
     }
 
 
     if ( prev <= 0 ) {
-        inverse = prev + M_PI;
+        inverse = prev + PI;
     }
     else {
-        inverse = prev - M_PI;
+        inverse = prev - PI;
     }
 
     if ( prev > 0 ) { /* if prev is in quad 1 or 2 */
         if ( current < inverse ) {
-            rotation = ( 2 * M_PI ) - prev + current;
+            rotation = TWO_PI - prev + current;
         }
         else {
             rotation = current - prev;
@@ -176,7 +186,7 @@ double rotation_between_angles
     }
     else { /* if prev is in quad 3 or 4 */
         if ( current > inverse ) {
-            rotation = ( -2 * M_PI ) - prev + current;
+            rotation = NEG_TWO_PI - prev + current;
         }
         else {
             rotation = current - prev;
@@ -185,18 +195,18 @@ double rotation_between_angles
 
     /* dealing with small rounding error */
 
-    if ( rotation > M_PI ) {
-        if ( rotation <= ( M_PI + 0.0001 ) ) {
-            rotation = M_PI;
+    if ( rotation > PI ) {
+        if ( rotation <= FUDGE_PI )  {
+            rotation = PI;
         }
         else {
             fprintf( stderr, "The rotation I calculated (%f) is > pi\n", rotation );
             exit(1);
         }
     }
-    else if ( rotation < ( -1 * M_PI ) ) {
-        if ( rotation >= ( ( -1 * M_PI ) - 0.0001 ) ) {
-            rotation = -1 * M_PI;
+    else if ( rotation < NEG_PI ) {
+        if ( rotation >= NEG_FUDGE_PI ) {
+            rotation = NEG_PI;
         }
         else {
             fprintf( stderr, "The rotation I calculated (%f) is < pi\n", rotation );
@@ -214,6 +224,8 @@ struct point_p rotate
 )
 {
     p.azimuth += rotation;
+
+    /* replace with constants once tests are in place */
 
     if ( p.azimuth < M_PI * -1 ) {
         p.azimuth += M_PI * 2;
