@@ -9,6 +9,12 @@
 /* We're calculating how much the driver turns
    as they move from point to point */
 
+int points_c_are_identical
+(
+    struct point_c a,
+    struct point_c b
+);
+
 int main()
 {
     struct point_c prev_pos, current_pos;
@@ -23,10 +29,29 @@ int main()
     ++line_no;
 
     while ( fget_point_c( &current_pos, stdin, line_no ) != 0 ) {
-        printf( "%f\n", interval_rotation( current_pos, prev_pos ) );
-        prev_pos = current_pos;
+        if ( points_c_are_identical( current_pos, prev_pos ) ) {
+            continue;
+        }
+        else {
+            printf( "%f\n", interval_rotation( current_pos, prev_pos ) );
+            prev_pos = current_pos;
+        }
         ++line_no;
     }
 
     return 0;
+}
+
+int points_c_are_identical
+(
+    struct point_c a,
+    struct point_c b
+)
+{
+    if ( a.x == b.x && a.y == b.y ) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
 }

@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Math::Trig;
-use Test::Deep;
+use Test::Deep qw(cmp_deeply num);
 use Test::More;
 use Test::Number::Delta;
 
@@ -111,13 +111,24 @@ SEQUENCE_TEST: {
         "Calculated turns for multiple points in sequence" );
 }
 
+NO_MOVEMENT: {
+
+    my @sequence = (
+        [ 0, 0 ], [ 1, 1 ], [ 1, 1 ], [ 2, 2 ], [ 2, 3 ]
+    );
+
+    my @angles = split "\n", interval_angle(@sequence);
+
+    my @expected = ( pi * 1 / 4, pi * 1 / 4, pi * 1 / 2 );
+    my @comparison = map { num( $_, $TOL ) } @expected;
+
+    cmp_deeply( \@angles, \@comparison, 'No output for identical, consecutive points' );
+}
+
 done_testing();
 
 sub interval_angle {
-    my $prev    = shift;
-    my $current = shift;
-
-    my $out = join "\n", map { point_to_str($_) } $prev, $current;
+    my $out = join "\n", map { point_to_str($_) } @_;
 
     return `( echo "$out" ) | bin/util/interval-angle`;
 }
