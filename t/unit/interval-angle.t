@@ -98,16 +98,14 @@ SEQUENCE_TEST: {
     my @sequence =
       ( [ 0, 0 ], [ 1, 1 ], [ 0, 1 ], [ -1, 1 ], [ 0, 0 ], [ 1, -1 ] );
 
-    my $out = join "\n", map { point_to_str($_) } @sequence;
-
-    my @interval_rotations = `echo "$out" | bin/util/rotation-for-interval`;
+    my @angles = split "\n", interval_angle(@sequence);
 
     my @expected =
       ( pi * 1 / 4, pi * 4 / 4, pi * 4 / 4, pi * -1 / 4, pi * -1 / 4, );
 
     my @comparison = map { num( $_, $TOL ) } @expected;
 
-    cmp_deeply( \@interval_rotations, \@comparison,
+    cmp_deeply( \@angles, \@comparison,
         "Calculated turns for multiple points in sequence" );
 }
 
