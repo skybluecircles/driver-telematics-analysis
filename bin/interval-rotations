@@ -31,7 +31,9 @@ do
         bin/util/interval-angle \
       < $dir/coordinates-without-repeats \
       | bin/util/rotation-between-angles \
-      > $dir/interval-rotations
+      | tee $dir/interval-rotations \
+      | perl -ne '$sum += abs($_); END { print $sum, $/ }' \
+      > $dir/absolute-rotation
 
     done
 done
