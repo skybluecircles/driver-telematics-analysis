@@ -128,6 +128,8 @@ $ bin/compile/interval-rotation
 $ bin/interval-rotation 1
 ```
 
+* We also just calculated the absolute amount of rotation for each trip *
+
 ## Generating Features
 
 Let's generate some features:
