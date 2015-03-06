@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cc src/distances.c src/geometry.c -lm -o bin/util/distances
-cc src/accelerations.c src/io.c -o bin/util/accelerations
-cc src/distance-duration.c src/io.c -o bin/util/distance-duration
+cc src/accelerations.c src/geometry.c src/io.c -o bin/util/accelerations
+cc src/distance-duration.c src/geometry.c src/io.c -o bin/util/distance-duration

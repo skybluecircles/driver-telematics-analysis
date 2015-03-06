@@ -1,3 +1,5 @@
+struct point_c * pt;
+
 int fget_point_c
 (
     struct point_c * pt,
