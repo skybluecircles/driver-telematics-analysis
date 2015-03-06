@@ -67,5 +67,9 @@ int main ()
         printf( "%f,%f\n", c.x, c.y );
     }
 
+    /* final distance from origin */
+
+    dprintf( 3, "%f\n", p.radius );
+
     return 0;
 }

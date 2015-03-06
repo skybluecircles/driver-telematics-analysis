@@ -29,6 +29,7 @@ do
 
         cat $driver_trip/coordinates \
       | bin/util/rotate-coordinates \
-      > $driver_trip/coordinates-rotated
+      > $driver_trip/coordinates-rotated \
+     3> $driver_trip/final-distance-from-origin
     done
 done
