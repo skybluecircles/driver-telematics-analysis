@@ -115,7 +115,18 @@ However, the car's being stationary doesn't seem to carry a lot of information. 
 $ bin/coordinates-without-repeats 1
 ```
 
-We'll use this later.
+We'll use this in a minute.
+
+### Rotation between intervals
+
+It would be helpful to know how much the driver turns as they move from point to point - kind of like acceleration but for the amount of rotation.
+
+The filtering we just did will be helpful here as rotation doesn't really mean anything if the driver isn't moving.
+
+```
+$ bin/compile/interval-rotation
+$ bin/interval-rotation 1
+```
 
 ## Generating Features
 
