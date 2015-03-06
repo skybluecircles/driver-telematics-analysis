@@ -29,8 +29,9 @@ do
         dir=$data/driver/$driver_id/trip/$i
 
         bin/util/interval-angle \
-      < $dir/coordinates \
-      | bin/util/rotation-between-angles
+      < $dir/coordinates-without-repeats \
+      | bin/util/rotation-between-angles \
+      > $dir/interval-rotations
 
     done
 done
