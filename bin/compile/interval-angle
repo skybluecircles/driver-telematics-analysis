@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cc src/interval-angle.c src/io.c src/geometry.c -lm -o bin/util/interval-angle
+
+prove t/unit/interval-angle.t

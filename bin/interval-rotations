@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo "Please define the environment variable DTA_DATA" >&2
+    exit 1
+fi
+
+driver_ids=${1-1}
+first_trip=${2-1}
+last_trip=${3-200}
+
+if [ $last_trip -gt 200 ]
+then
+    echo "Max value for \$3 (last_trip) is 200 but you passed ($last_trip)" >&2
+    exit 1
+fi
+
+for driver_id in $( ls -d $data/driver/$driver_ids | xargs basename | sort -n )
+do
+    for (( i=$first_trip; i<=$last_trip; i++ ))
+    do
+        echo "$driver_id,$i"
+        dir=$data/driver/$driver_id/trip/$i
+
+        bin/util/interval-angle \
+      < $dir/coordinates-without-repeats \
+      | bin/util/rotation-between-angles \
+      > $dir/interval-rotations
+
+    done
+done

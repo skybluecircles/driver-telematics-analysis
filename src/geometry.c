@@ -4,6 +4,16 @@
 #include <errno.h>
 #include "geometry.h"
 
+#define PI M_PI
+#define TOL 0.0001
+
+const double TWO_PI   = PI *  2;
+const double FUDGE_PI = PI + TOL;
+
+const double NEG_PI       = PI * -1;
+const double NEG_TWO_PI   = PI * -2;
+const double NEG_FUDGE_PI = PI * -1 - TOL;
+
 struct point_c l_to_c
 (
     char *l,
@@ -113,6 +123,106 @@ double calculate_rotation
     return M_PI_2 - angle;
 }
 
+struct point_c subtract_points_c
+(
+    struct point_c current,
+    struct point_c prev
+)
+{
+    struct point_c diff;
+
+    diff.x = current.x - prev.x;
+    diff.y = current.y - prev.y;
+
+    return diff;
+}
+
+double interval_rotation
+(
+    struct point_c current,
+    struct point_c prev
+)
+{
+    struct point_c transp;
+
+    transp = subtract_points_c( current, prev );
+
+    return atan2( transp.y, transp.x );
+}
+
+double rotation_between_angles
+(
+    double current,
+    double prev
+)
+{
+    double inverse,
+           rotation;
+
+    clean_angle(&current);
+    clean_angle(&prev);
+
+    if ( prev <= 0 ) {
+        inverse = prev + PI;
+    }
+    else {
+        inverse = prev - PI;
+    }
+
+    /* if prev is in quad 1 or 2 */
+
+    if ( prev > 0 ) {
+        if ( current < inverse ) {
+            rotation = TWO_PI - prev + current;
+        }
+        else {
+            rotation = current - prev;
+        }
+    }
+
+    /* if prev is in quad 3 or 4 */
+
+    else {
+        if ( current > inverse ) {
+            rotation = NEG_TWO_PI - prev + current;
+        }
+        else {
+            rotation = current - prev;
+        }
+    }
+
+    clean_angle(&rotation);
+
+    return rotation;
+}
+
+int clean_angle
+(
+    double * angle
+)
+{
+    if ( *angle > PI ) {
+        if ( *angle <= FUDGE_PI ) {
+            *angle = PI;
+        }
+        else {
+            fprintf( stderr, "Angle (%f) is > pi\n", *angle );
+            exit(1);
+        }
+    }
+    else if ( *angle < NEG_PI ) {
+        if ( *angle >= NEG_FUDGE_PI ) {
+            *angle = NEG_PI;
+        }
+        else {
+            fprintf( stderr, "Angle (%f) is < pi\n", *angle );
+            exit(1);
+        }
+    }
+
+    return 0;
+}
+
 struct point_p rotate
 (
     struct point_p p,
@@ -120,6 +230,8 @@ struct point_p rotate
 )
 {
     p.azimuth += rotation;
+
+    /* replace with constants once tests are in place */
 
     if ( p.azimuth < M_PI * -1 ) {
         p.azimuth += M_PI * 2;
