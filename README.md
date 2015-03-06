@@ -109,6 +109,14 @@ $ bin/distance 1
 
 This will also give us the total distance and duration for each trip along with the acceleration between each interval.
 
+However, the car's being stationary doesn't seem to carry a lot of information. Let's filter out repeated coordinates.
+
+```
+$ bin/coordinates-without-repeats 1
+```
+
+We'll use this later.
+
 ## Generating Features
 
 Let's generate some features:
