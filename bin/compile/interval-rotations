@@ -2,3 +2,5 @@
 
 bin/compile/interval-angle
 bin/compile/rotation-between-angles
+
+prove t/integration/interval-rotations.t
