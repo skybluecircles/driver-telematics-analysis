@@ -76,6 +76,6 @@ do
     echo "$header"
    eval paste -d, $driver/{$header} # brace expansion
  )\
- > $driver/features
+ > $driver/features.csv
 
 done
