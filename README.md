@@ -150,25 +150,25 @@ $ cat $DTA_DATA/driver/1/width     # just one example
 Currently, our features contain:
 
 <dl>
-  <dt>Distance</dt>
+  <dt>distance</dt>
   <dd>The total distance of the trip.</dd>
 
-  <dt>Duration</dt>
+  <dt>duration</dt>
   <dd>How long the trip took.</dd>
 
-  <dt>Average Velocity</dt>
+  <dt>average velocity</dt>
   <dd>distance / duration</dd>
 
-  <dt>Absolute rotation</dt>
+  <dt>absolute rotation</dt>
   <dd>The absolute amount of radians the driver turned during the trip.</dd>
 
-  <dt>Max Distance from Origin</dt>
+  <dt>max distance from origin</dt>
   <dd>The distance between the origin and the furthest from the point from the origin.</dd>
 
-  <dt>Final Distance from Origin</dt>
+  <dt>final distance from origin</dt>
   <dd>The distance between the final point and the origin.</dd>
 
-  <dt>Width</dt>
+  <dt>width</dt>
   <dd>How "wide" is the trip?<br><br>Take the line from the origin to the furthest point from the origin. Then, for each point, calculate the orthogonal distance between the "max distance" line and the point. Then take the difference between the "right most" point and the "left most" point.</dd>
 </dl>
 
