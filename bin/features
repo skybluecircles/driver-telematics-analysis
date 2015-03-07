@@ -13,11 +13,24 @@ fi
 
 driver_id=${1-1}
 
+tags=(
+    driver_id
+    trip_id
+)
+
 features=(
     distance
+    duration
+    average-velocity
+    absolute-rotation
     max-distance-from-origin
+    final-distance-from-origin
     width
 )
+
+IFS=$','
+header=("${tags[*]}","${features[*]}")
+unset IFS
 
 for driver in $data/driver/$driver_id
 do
@@ -32,6 +45,22 @@ do
     # I'm concatenating each feature into a single column
     # and then pasting the columns together to form a csv
 
+  (
+    for i in {1..200}
+    do
+        echo $driver_id
+    done
+  ) \
+  > $driver/driver_id
+
+  (
+    for i in {1..200}
+    do
+        echo $i
+    done
+  ) \
+  > $driver/trip_id
+
     for feature in ${features[@]}
     do
       (
@@ -43,13 +72,10 @@ do
       > $driver/$feature
     done
 
-    IFS=$','
-    header="${features[*]}"
-    unset IFS
-
-  (
+ (
     echo "$header"
-    eval "paste -d, $driver/{$header}" # brace expansion
-  )\
-  > $driver/features
+   eval paste -d, $driver/{$header} # brace expansion
+ )\
+ > $driver/features
+
 done
