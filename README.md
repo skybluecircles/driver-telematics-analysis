@@ -109,7 +109,7 @@ $ bin/compile/distance
 $ bin/distance 1
 ```
 
-This will also give us the total distance and duration for each trip along with the acceleration between each interval.
+This will also give us the total distance and duration for each trip along with the acceleration between each interval and also the average velocity.
 
 However, the car's being stationary doesn't seem to carry a lot of information. Let's filter out repeated coordinates.
 
