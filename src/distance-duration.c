@@ -17,6 +17,7 @@ int main ()
 
     printf( "%f\n", sum );
     dprintf( 3, "%d\n", i );
+    dprintf( 4, "%f\n", sum / i );
 
     return 0;
 }

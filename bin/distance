@@ -45,7 +45,8 @@ do
         bin/util/distance-duration \
       < $driver_trip/distances \
       > $driver_trip/distance \
-     3> $driver_trip/duration
+     3> $driver_trip/duration \
+     4> $driver_trip/average-velocity
 
     done
 done
