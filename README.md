@@ -173,9 +173,9 @@ $ head $DTA_DATA/driver/1/features.csv
   <dd>How "wide" is the trip?<br><br>Take the line from the origin to the furthest point from the origin. Then, for each point, calculate the orthogonal distance between the "max distance" line and the point. Then take the difference between the "right most" point and the "left most" point.</dd>
 </dl>
 
-### Convenience Function
+### Convenience Script
 
-There's also now a convenience script to generate all of the commands we've gone over (except for the plotting).
+There's also now a convenience script to generate all of the commands we've gone over from rotation to features (except for the plotting).
 
 ```
 $ bin/all-driver-data 1
