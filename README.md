@@ -132,7 +132,9 @@ $ bin/interval-rotation 1
 
 *We also just calculated the absolute amount of rotation for each trip*
 
-## Generating Features
+## Features
+
+### Generation
 
 Let's generate some features:
 
@@ -140,9 +142,47 @@ Let's generate some features:
 $ bin/features 1
 ```
 
-This will amalgamate the features for each of a given driver's trips into single files.
+This will amalgamate the features for each of a given driver's trips into single csv.
 
 ```
-$ ls $DTA_DATA/driver/1
-$ cat $DTA_DATA/driver/1/width     # just one example
+$ head $DTA_DATA/driver/1/features.csv
+```
+
+### CSV Columns
+
+<dl>
+  <dt>distance</dt>
+  <dd>The total distance of the trip.</dd>
+
+  <dt>duration</dt>
+  <dd>How long the trip took.</dd>
+
+  <dt>average velocity</dt>
+  <dd>distance / duration</dd>
+
+  <dt>absolute rotation</dt>
+  <dd>The absolute amount of radians the driver turned during the trip.</dd>
+
+  <dt>max distance from origin</dt>
+  <dd>The distance between the origin and the furthest from the point from the origin.</dd>
+
+  <dt>final distance from origin</dt>
+  <dd>The distance between the final point and the origin.</dd>
+
+  <dt>width</dt>
+  <dd>How "wide" is the trip?<br><br>Take the line from the origin to the furthest point from the origin. Then, for each point, calculate the orthogonal distance between the "max distance" line and the point. Then take the difference between the "right most" point and the "left most" point.</dd>
+</dl>
+
+### Convenience Script
+
+There's also now a convenience script to generate all of the commands we've gone over, from rotation to features (except for the plotting).
+
+```
+$ bin/all-driver-data 1
+```
+
+Again, it takes a glob. So, you could do:
+
+```
+$ bin/all-driver-data '*' # might take a while
 ```
