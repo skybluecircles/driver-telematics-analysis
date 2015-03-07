@@ -146,3 +146,28 @@ This will amalgamate the features for each of a given driver's trips into single
 $ ls $DTA_DATA/driver/1
 $ cat $DTA_DATA/driver/1/width     # just one example
 ```
+
+Currently, our features contain:
+
+<dl>
+  <dt>Distance</dt>
+  <dd>The total distance of the trip.</dd>
+
+  <dt>Duration</dt>
+  <dd>How long the trip took.</dd>
+
+  <dt>Average Velocity</dt>
+  <dd>distance / duration</dd>
+
+  <dt>Max Distance from Origin</dt>
+  <dd>The distance between the origin and the furthest from the point from the origin.</dd>
+
+  <dt>Final Distance from Origin</dt>
+  <dd>The distance between the final point and the origin.</dd>
+
+  <dt>Absolute rotation</dt>
+  <dd>The absolute amount of radians the driver turned during the trip.</dd>
+
+  <dt>Width</dt>
+  <dd>How "wide" is the trip?<br><br>Take the line from the origin to the furthest point from the origin. Then, for each point, calculate the orthogonal distance between the "max distance" line and the point. Then take the difference between the "right most" point and the "left most" point.</dd>
+</dl>
