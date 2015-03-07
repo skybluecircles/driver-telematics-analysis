@@ -175,7 +175,7 @@ $ head $DTA_DATA/driver/1/features.csv
 
 ### Convenience Script
 
-There's also now a convenience script to generate all of the commands we've gone over from rotation to features (except for the plotting).
+There's also now a convenience script to generate all of the commands we've gone over, from rotation to features (except for the plotting).
 
 ```
 $ bin/all-driver-data 1
