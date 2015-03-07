@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo "Please define the environment variable DTA_DATA" >&2
+    exit 1
+fi
+
+driver_ids=${1-1}
+
+scripts=(
+    rotate
+    morphology
+    distance
+    coordinates-without-repeats
+    interval-rotations
+    features
+)
+
+for driver_id in $( find data/driver -name $driver_ids -type d -maxdepth 1 | xargs basename | sort -n )
+do
+    echo $driver_id
+
+    for script in ${scripts[@]}
+    do
+        echo -e "\t$script"
+        bin/$script $driver_id > /dev/null
+    done
+done 
+
+
