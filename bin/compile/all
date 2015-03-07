@@ -4,7 +4,7 @@ programs=(
     rotate-coordinates
     distances
     morphology
-    interval-rotation
+    interval-rotations
 )
 
 for program in ${programs[@]}

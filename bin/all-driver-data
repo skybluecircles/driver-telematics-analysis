@@ -16,7 +16,7 @@ driver_ids=${1-1}
 scripts=(
     rotate
     morphology
-    distance
+    distances
     coordinates-without-repeats
     interval-rotations
     features
