@@ -142,15 +142,13 @@ Let's generate some features:
 $ bin/features 1
 ```
 
-This will amalgamate the features for each of a given driver's trips into single files.
+This will amalgamate the features for each of a given driver's trips into single csv.
 
 ```
-$ ls $DTA_DATA/driver/1
-$ cat $DTA_DATA/driver/1/width     # just one example
+$ head $DTA_DATA/driver/1/features.csv
 ```
 
-### Description
-Currently, our features contain:
+### CSV Columns
 
 <dl>
   <dt>distance</dt>
