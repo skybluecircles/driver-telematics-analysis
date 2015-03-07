@@ -29,33 +29,27 @@ do
         exit 1
     fi
 
-    for feature in ${features[@]}
-    do
-        if [ -f $driver/$feature ]
-        then
-            rm $driver/$feature
-        fi
-    done
-
     # I'm concatenating each feature into a single column
     # and then pasting the columns together to form a csv
 
-    for i in {1..200}
+    for feature in ${features[@]}
     do
-        driver_trip=$driver/trip/$i
-
-        for feature in ${features[@]}
+      (
+        for i in {1..200}
         do
-            cat $driver_trip/$feature >> $driver/$feature
+            cat $driver/trip/$i/$feature
         done
+      ) \
+      > $driver/$feature
     done
 
     IFS=$','
     header="${features[*]}"
     unset IFS
 
-    (
-        echo "$header"
-        eval "paste -d, $driver/{$header}" # brace expansion
-    ) > $driver/features
+  (
+    echo "$header"
+    eval "paste -d, $driver/{$header}" # brace expansion
+  )\
+  > $driver/features
 done
