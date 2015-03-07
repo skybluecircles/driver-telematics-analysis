@@ -14,7 +14,8 @@ fi
 driver_id=${1-1}
 
 features=(
-    max_distance_from_origin
+    distance
+    max-distance-from-origin
     width
 )
 
@@ -30,15 +31,17 @@ do
 
     for feature in ${features[@]}
     do
-        if [ -f $driver/$feature]
+        if [ -f $driver/$feature ]
         then
             rm $driver/$feature
         fi
     done
 
+    # I'm concatenating each feature into a single column
+    # and then pasting the columns together to form a csv
+
     for i in {1..200}
     do
-        echo "$driver_id,$i"
         driver_trip=$driver/trip/$i
 
         for feature in ${features[@]}
@@ -46,4 +49,13 @@ do
             cat $driver_trip/$feature >> $driver/$feature
         done
     done
+
+    IFS=$','
+    header="${features[*]}"
+    unset IFS
+
+    (
+        echo "$header"
+        eval "paste -d, $driver/{$header}" # brace expansion
+    ) > $driver/features
 done
