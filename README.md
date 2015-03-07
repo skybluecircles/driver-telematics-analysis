@@ -132,7 +132,9 @@ $ bin/interval-rotation 1
 
 *We also just calculated the absolute amount of rotation for each trip*
 
-## Generating Features
+## Features
+
+### Generation
 
 Let's generate some features:
 
@@ -147,6 +149,7 @@ $ ls $DTA_DATA/driver/1
 $ cat $DTA_DATA/driver/1/width     # just one example
 ```
 
+### Description
 Currently, our features contain:
 
 <dl>
@@ -171,6 +174,8 @@ Currently, our features contain:
   <dt>width</dt>
   <dd>How "wide" is the trip?<br><br>Take the line from the origin to the furthest point from the origin. Then, for each point, calculate the orthogonal distance between the "max distance" line and the point. Then take the difference between the "right most" point and the "left most" point.</dd>
 </dl>
+
+### Convenience Function
 
 There's also now a convenience script to generate all of the commands we've gone over (except for the plotting).
 
