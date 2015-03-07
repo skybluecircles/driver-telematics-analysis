@@ -52,6 +52,9 @@ __DATA__
 @@ morphology-with-coordinates.html.ep
 %layout 'image-loop', action => 'morphology'
 
+@@ final-vs-max-distance-from-origin.html.ep
+%layout 'image-loop', action => undef
+
 @@ layouts/image-loop.html.ep
 <!DOCTYPE html>
 <html>

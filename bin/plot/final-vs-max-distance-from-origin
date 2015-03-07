@@ -20,13 +20,12 @@ for path in $data/driver/$driver
 do
     driver=`basename $path`
 
-    for trip in {1..200}
-    do
-        driver_trip=$path/trip/$trip
+    if [ ! -d $path ]
+    then
+        echo "Driver dir does not exist ($path)" >&2
+        exit 1
+    fi
 
-         if [ ! -f $driver_trip/rotated-coordinates-just-calipers.svg ]
-        then
-            Rscript bin/plot/driver/trip/rotated-coordinates-just-calipers $driver $trip
-        fi
-    done
+    echo "$driver"
+    bin/plot/util/final-vs-max-distance-from-origin.R $driver > /dev/null
 done

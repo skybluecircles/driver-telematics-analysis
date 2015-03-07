@@ -186,3 +186,15 @@ Again, it takes a glob. So, you could do:
 ```
 $ bin/all-driver-data '*' # might take a while
 ```
+
+## Additional Visualization
+
+Now that we've generated additional data, have more to visualize. This, in turn, will help us with our analysis.
+
+```
+$ bin/plot/final-vs-max-distance-from-origin
+```
+
+And we can loop through our plots:
+
+http://127.0.0.1:3000/driver/1/final-vs-max-distance-from-origin
