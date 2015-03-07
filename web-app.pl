@@ -55,6 +55,9 @@ __DATA__
 @@ final-vs-max-distance-from-origin.html.ep
 %layout 'image-loop', action => undef
 
+@@ distance-vs-duration.html.ep
+%layout 'image-loop', action => undef
+
 @@ layouts/image-loop.html.ep
 <!DOCTYPE html>
 <html>

@@ -192,9 +192,11 @@ $ bin/all-driver-data '*' # might take a while
 Now that we've generated additional data, have more to visualize. This, in turn, will help us with our analysis.
 
 ```
-$ bin/plot/final-vs-max-distance-from-origin
+$ bin/plot/final-vs-max-distance-from-origin 1
+$ bin/plot/distance-vs-duration 1
 ```
 
 And we can loop through our plots:
 
-http://127.0.0.1:3000/driver/1/final-vs-max-distance-from-origin
+* http://127.0.0.1:3000/driver/1/final-vs-max-distance-from-origin
+* http://127.0.0.1:3000/driver/1/distance-vs-duration
