@@ -171,3 +171,15 @@ Currently, our features contain:
   <dt>Width</dt>
   <dd>How "wide" is the trip?<br><br>Take the line from the origin to the furthest point from the origin. Then, for each point, calculate the orthogonal distance between the "max distance" line and the point. Then take the difference between the "right most" point and the "left most" point.</dd>
 </dl>
+
+There's also now a convenience script to generate all of the commands we've gone over (except for the plotting).
+
+```
+$ bin/all-driver-data 1
+```
+
+Again, it takes a glob. So, you could do:
+
+```
+$ bin/all-driver-data '*' # might take a while
+```
