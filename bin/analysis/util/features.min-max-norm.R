@@ -10,13 +10,15 @@ mm.norm <- function(x) {
 }
 features.mm.norm <- lapply( features[3:7], mm.norm )
 
+features.recombined <- cbind( features[1:2], features.mm.norm )
+
 write.driver.csv <- function( data, file, driver_id ) {
     file <- driver_file( driver_id, file )
     write.csv( data, file = file, row.names = FALSE )
 }
 
 write.driver.csv(
-    features.mm.norm,
+    features.recombined,
     "features.min-max-norm.csv",
     driver_id
 )
