@@ -8,7 +8,7 @@ features <- driver_csv( driver_id, "features.csv" )
 mm.norm <- function(x) {
     return ((x-min(x))/(max(x)-min(x)))
 }
-features.mm.norm <- lapply( features[3:7], mm.norm )
+features.mm.norm <- lapply( features[-c(1,2)], mm.norm )
 
 features.recombined <- cbind( features[1:2], features.mm.norm )
 
