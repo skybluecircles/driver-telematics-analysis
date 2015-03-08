@@ -191,7 +191,7 @@ $ bin/all-driver-data '*' # might take a while
 
 ### "Shape" of Features
 
-As we begin to analyze our features, it would be good to get a sense of their shape. Let's look at the distributions of the features for a given driver.
+As we begin to analyze our features, it would be good to get a sense of their shape. For a given driver, for each features, let's look at the distribution of the values.
 
 ```
 $ bin/plot/feature-box-plots 1
