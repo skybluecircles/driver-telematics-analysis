@@ -187,24 +187,22 @@ Again, it takes a glob. So, you could do:
 $ bin/all-driver-data '*' # might take a while
 ```
 
-## Additional Visualization
+## Analysis
 
-Now that we've generated additional data, have more to visualize. This, in turn, will help us with our analysis.
+### "Shape" of Features
 
-```
-$ bin/plot/final-vs-max-distance-from-origin 1
-$ bin/plot/distance-vs-duration 1
-```
-
-And if we recalculate the accelerations over the coordinates without repeats, we can plot a timeline of the rotations alongside the accelerations:
+As we begin to analyze our features, it would be good to get a sense of their shape. Let's look at the distributions of the features for a given driver.
 
 ```
-$ bin/distances-without-repeats 1
-$ bin/plot/timeline 1
+$ bin/plot/feature-box-plots 1
 ```
 
-And we can loop through our plots:
+http://127.0.0.1/driver/1/box-plots.svg
 
-* http://127.0.0.1:3000/driver/1/final-vs-max-distance-from-origin
-* http://127.0.0.1:3000/driver/1/distance-vs-duration
-* http://127.0.0.1:3000/driver/1/timeline
+Clearly the features have vastly difference scales.
+
+Either we use a non-parametric algorithm - or we scale them.
+
+We'll start by scaling them.
+
+### Scaling Features
