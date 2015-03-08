@@ -206,3 +206,24 @@ Either we use a non-parametric algorithm - or we scale them.
 We'll start by scaling them.
 
 ### Scaling Features
+
+#### min / max normalization
+
+In Machine Learning with R, Brett Lantz shows how scale a range of values from their own min / max to 0 and 1. [\[1\]](#footnote-1)
+
+It's less sophisticated than other methods, but that isn't necessarily a strike against it - sometimes simpler is better.
+
+So, let's start here.
+
+```
+$ bin/analysis/features.min-max-norm 1
+$ head $DTA_DATA/driver/1/features.min-max-norm.csv
+```
+
+As you can see the values are different, but, in some ways, it let's us compare the features more easily.
+
+We can even replot our box-plots to see this more easily.
+
+## Footnotes
+
+<a id="footnote-1"></a>[1] Lantz, Brett, *Machine Learning with R*, Birmingham: Packt Publishing, 2013, PDF e-book, pp 78-80
