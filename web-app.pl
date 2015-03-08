@@ -40,6 +40,12 @@ __DATA__
 @@ pin-wheel.html.ep
 % layout 'image-loop', action => undef
 
+@@ box-plots.html.ep
+% layout 'image-loop', action => 'box-plots-min-max-norm'
+
+@@ box-plots-min-max-norm.html.ep
+% layout 'image-loop', action => 'box-plots'
+
 @@ orig-rotated-coordinates.html.ep
 % layout 'image-loop', action => undef
 

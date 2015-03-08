@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo "Please define the environment variable DTA_DATA" >&2
+    exit 1
+fi
+
+driver_ids=${1-1}
+
+for path in $data/driver/$driver_ids
+do
+    driver_id=`basename $path`
+
+    if [ ! -d $path ]
+    then
+        echo "Directory not found for driver id ($driver_id): $path" >&2
+        exit 1
+    fi
+
+    echo $driver_id
+
+    Rscript bin/analysis/util/features.min-max-norm.R $driver_id
+done 
+
