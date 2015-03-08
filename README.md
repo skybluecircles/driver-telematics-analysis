@@ -197,7 +197,7 @@ As we begin to analyze our features, it would be good to get a sense of their sh
 $ bin/plot/feature-box-plots 1
 ```
 
-http://127.0.0.1/driver/1/box-plots.svg
+http://127.0.0.1/driver/1/box-plots
 
 Clearly the features have vastly difference scales.
 
@@ -227,6 +227,10 @@ We can even replot our box-plots to see this more easily.
 ```
 $ bin/plot/feature-box-plots.min-max-norm 1
 ```
+
+http://127.0.0.1/driver/1/box-plots-min-max-norm
+
+*'k' toggles between the scalings*
 
 ## Footnotes
 
