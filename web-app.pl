@@ -58,6 +58,9 @@ __DATA__
 @@ distance-vs-duration.html.ep
 %layout 'image-loop', action => undef
 
+@@ timeline.html.ep
+%layout 'image-loop', action => undef
+
 @@ layouts/image-loop.html.ep
 <!DOCTYPE html>
 <html>
