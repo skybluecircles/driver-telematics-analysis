@@ -224,6 +224,10 @@ As you can see the values are different, but, in some ways, it let's us compare 
 
 We can even replot our box-plots to see this more easily.
 
+```
+$ bin/plot/feature-box-plots.min-max-norm 1
+```
+
 ## Footnotes
 
 <a id="footnote-1"></a>[1] Lantz, Brett, *Machine Learning with R*, Birmingham: Packt Publishing, 2013, PDF e-book, pp 78-80

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo "Please define the environment variable DTA_DATA" >&2
+    exit 1
+fi
+
+driver_ids=${1-1}
+
+for path in $data/driver/$driver_ids
+do
+    if [ ! -d $path ]
+    then
+        echo "No directory for ($driver)" >&2
+        exit 1
+    fi
+
+    driver_id=`basename $path`
+    echo $driver_id
+
+    bin/plot/util/feature-box-plots.min-max-norm.R $driver_id > /dev/null
+
+done
+
+
