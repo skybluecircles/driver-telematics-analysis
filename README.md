@@ -196,7 +196,15 @@ $ bin/plot/final-vs-max-distance-from-origin 1
 $ bin/plot/distance-vs-duration 1
 ```
 
+And if we recalculate the accelerations over the coordinates without repeats, we can plot a timeline of the rotations alongside the accelerations:
+
+```
+$ bin/distances-without-repeats 1
+$ bin/plot/timeline 1
+```
+
 And we can loop through our plots:
 
 * http://127.0.0.1:3000/driver/1/final-vs-max-distance-from-origin
 * http://127.0.0.1:3000/driver/1/distance-vs-duration
+* http://127.0.0.1:3000/driver/1/timeline
