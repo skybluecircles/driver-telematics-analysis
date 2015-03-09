@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# set -e
+# set -o pipefail
+
+data=$DTA_DATA
+
+if [ ! $data ]
+then
+    echo "Please define the environment variable DTA_DATA" >&2
+    exit 1
+fi
+
+timestamp=`date +%Y%m%d-%H%M%S`
+
+(
+  echo "driver_trip,prob"
+
+  for driver_id in $( ls -d $DTA_DATA/driver/* | xargs basename | sort -n )
+  do
+      dir=$DTA_DATA/driver/$driver_id
+      cat $dir/probs
+  done
+) \
+> $DTA_DATA/probs.$timestamp.csv

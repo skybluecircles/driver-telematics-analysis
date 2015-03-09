@@ -207,8 +207,6 @@ We'll start by scaling them.
 
 ### Scaling Features
 
-#### min / max normalization
-
 In Machine Learning with R, Brett Lantz shows how scale a range of values from their own min / max to 0 and 1. [\[1\]](#footnote-1)
 
 It's less sophisticated than other methods, but that isn't necessarily a strike against it - sometimes simpler is better.
@@ -231,6 +229,45 @@ $ bin/plot/feature-box-plots.min-max-norm 1
 http://127.0.0.1:3000/driver/1/box-plots-min-max-norm
 
 "*k*" toggles between the scalings
+
+### kmeans
+
+Differentiating the trips is an unsupervised learning task as we have not been given any data with truth values.
+
+So, one approach is to look for clusters.
+
+We'll start with kmeans.
+
+```
+$ bin/analysis kmeans 1
+$ cat data/driver/1/probs
+```
+
+After kmeans finds the clusters, we bluntly assign 1 to the 6-most populated clusters and 0 to the others.
+
+There's definitely room for improvement :-)
+
+## Making a Submission
+
+If we run kmeans against all of the drivers, we can then amalgamate the results:
+
+```
+$ bin/analysis/amalgamate-probs
+```
+
+There will be a file in `$DTA_DATA` called probs with a timestamp after it.
+
+```
+$ ls $DTA_DATA
+```
+
+You can do a quick validity check on it.
+
+```
+$ perl bin/analysis/check-submission.pl /path/to/probs
+```
+
+It raises an expcetion if any line is malformed and outputs the % of trips for each prob.
 
 ## Footnotes
 
