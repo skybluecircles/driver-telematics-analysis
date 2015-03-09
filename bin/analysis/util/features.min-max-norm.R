@@ -6,7 +6,11 @@ source("bin/util/driver-trip-args.R")
 features <- driver_csv( driver_id, "features.csv" )
 
 mm.norm <- function(x) {
-    return ((x-min(x))/(max(x)-min(x)))
+    if (any(is.na(x))) {
+        return(mean(x, na.rm = TRUE )) # 1587,142
+    } else {
+        return ((x-min(x))/(max(x)-min(x)))
+    }
 }
 features.mm.norm <- lapply( features[-c(1,2)], mm.norm )
 
