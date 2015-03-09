@@ -247,6 +247,28 @@ After kmeans finds the clusters, we bluntly assign 1 to the 6-most populated clu
 
 There's definitely room for improvement :-)
 
+## Making a Submission
+
+If we run kmeans against all of the drivers, we can then amalgamate the results:
+
+```
+$ bin/analysis/amalgamate-probs
+```
+
+There will be a file in `$DTA_DATA` called probs with a timestamp after it.
+
+```
+$ ls $DTA_DATA
+```
+
+You can do a quick validity check on it.
+
+```
+$ perl bin/analysis/check-submission.pl /path/to/probs
+```
+
+It raises an expcetion if any line is malformed and outputs the % of trips for each prob.
+
 ## Footnotes
 
 <a id="footnote-1"></a>[1] Lantz, Brett, *Machine Learning with R*, Birmingham: Packt Publishing, 2013, PDF e-book, pp 78-80
