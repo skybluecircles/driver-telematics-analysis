@@ -89,7 +89,9 @@ int check_point_c
         exit(1);
     }
     return 0;
-}struct point_p c_to_p
+}
+
+struct point_p c_to_p
 (
     struct point_c c
 )
