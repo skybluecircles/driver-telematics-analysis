@@ -73,7 +73,7 @@ And visualize it:
 * [orig-rotated-coorindates](http://127.0.0.1:3000/driver/1/trip/1/orig-rotated-coordinates)
 * [rotated-coordinates](http://127.0.0.1:3000/driver/1/trip/1/rotated-coordinates)
 
-* This also calculated the distance between the final destination and the origin *
+*This also calculated the distance between the final destination and the origin*
 
 ### Morphology
 
