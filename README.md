@@ -6,18 +6,19 @@ After cloning this repo, download the DTA data from the Kaggle website:
 
 http://www.kaggle.com/c/axa-driver-telematics-analysis
 
+You'll need to create a Kaggle account if you don't already have one. Note that it's a 1.44 GB file.
+
 ## Initial setup
 
 Then run the commands below.
 
 ```
-$ bin/environment
-$ bin/setup-data
-$ bin/util/install-dependencies
-$ prove t/integration/*
+$ bin/environment                 # quick
+$ bin/setup-data                  # 3+ hours
+$ bin/util/install-dependencies   #
 ```
 
-If the integration tests pass, your environment should be sane.
+If you get no errors, your environment should be sane.
 
 ## Visualization
 
@@ -77,7 +78,7 @@ And visualize it:
 
 ### Morphology
 
-Now that you've rotated the coordinates, you can reduce the trip to 4 points.
+Now that you've rotated the coordinates, you can reduce each trip to 4 points.
 
 ```
 $ bin/compile/morphology
@@ -92,8 +93,8 @@ $ bin/plot/morphology
 
 And visualize it:
 
-* http://127.0.0.1:3000/driver/1/trip/1/morphology
-* http://127.0.0.1:3000/driver/1/trip/1/morphology-with-coordinates
+* [morphology](http://127.0.0.1:3000/driver/1/trip/1/morphology)
+* [morphology-with-coordinates](http://127.0.0.1:3000/driver/1/trip/1/morphology-with-coordinates)
 
 "*k*" toggles between the two
 
@@ -197,7 +198,7 @@ As we begin to analyze our features, it would be good to get a sense of their sh
 $ bin/plot/feature-box-plots 1
 ```
 
-http://127.0.0.1:3000/driver/1/box-plots
+[box-plots](http://127.0.0.1:3000/driver/1/box-plots)
 
 Clearly the features have vastly difference scales.
 
@@ -226,7 +227,7 @@ We can even replot our box-plots to see this more easily.
 $ bin/plot/feature-box-plots.min-max-norm 1
 ```
 
-http://127.0.0.1:3000/driver/1/box-plots-min-max-norm
+[box-plots-min-max-norm](http://127.0.0.1:3000/driver/1/box-plots-min-max-norm)
 
 "*k*" toggles between the scalings
 
