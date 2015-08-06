@@ -60,5 +60,3 @@ install one.
 message
     exit 1
 fi
-
-prove t/integration/install-dependencies.t
