@@ -6,16 +6,20 @@ After cloning this repo, download the DTA data from the Kaggle website:
 
 http://www.kaggle.com/c/axa-driver-telematics-analysis
 
-You'll need to create a Kaggle account if you don't already have one. Note that it's a 1.44 GB file.
+You'll need to create a Kaggle account if you don't already have one.
+
+Note that it's a 1.44 GB file and you'll need ~10-15 GB free to work with the data.
 
 ## Initial setup
 
 Then run the commands below.
 
 ```
-$ bin/environment                 # quick
-$ bin/setup-data                  # 3+ hours
-$ bin/util/install-dependencies   #
+$ bin/setup/environment    # quick
+$ bin/setup/data           # 1-3 hours
+$ bin/setup/dependencies   # varies
+
+# prove t/integration/setup/*
 ```
 
 If you get no errors, your environment should be sane.
