@@ -12,6 +12,7 @@ Do you want me to install them? [Y/n]
 question
 
 read response
+response=${response:-Y}
 
 if [ $response == 'Y' ]
 then
