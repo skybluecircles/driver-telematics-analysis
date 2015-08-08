@@ -26,10 +26,12 @@ If you get no errors, your environment should be sane.
 
 ## Visualization
 
-Now, plot a given driver's trips:
+Now, plot a few driver's trips:
 
 ```
 $ bin/plot/pin-wheel 1
+$ bin/plot/pin-wheel 2
+$ bin/plot/pin-wheel 3612
 ```
 
 The arg is actually a glob, so you could also pass:
