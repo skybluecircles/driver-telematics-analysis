@@ -112,8 +112,8 @@ And visualize it:
 We can derive the distance between each point and how much more (or less) the driver traveled between one interval and the next:
 
 ```
-$ bin/compile/distance
-$ bin/distance 1
+$ bin/compile/distances
+$ bin/distances 1
 ```
 
 This will also give us the total distance and duration for each trip along with the acceleration between each interval and also the average velocity.
@@ -133,8 +133,8 @@ It would be helpful to know how much the driver turns as they move from point to
 The filtering we just did will be helpful here as rotation doesn't really mean anything if the driver isn't moving.
 
 ```
-$ bin/compile/interval-rotation
-$ bin/interval-rotation 1
+$ bin/compile/interval-rotations
+$ bin/interval-rotations 1
 ```
 
 *We also just calculated the absolute amount of rotation for each trip*
