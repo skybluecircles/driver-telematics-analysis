@@ -34,7 +34,7 @@ scripts=(
 # So, I use find to get the full path for any driver id which matches
 # the glob:
 #
-#    find $data/driver -maxdepth 1 -name $driver_ids -type d
+#    find $data/driver/$driver_ids -maxdepth 0 -type d
 #
 # We add -exec basename '{}' \; to get just the id and then sort these
 # numerically:
@@ -44,7 +44,7 @@ scripts=(
 # The sorted driver ids are then passed to each of the scripts.
 
 
-sorted=($( find $data/driver -maxdepth 1 -name $driver_ids -type d -exec basename '{}' \; | sort -n ) )
+sorted=( $( find $data/driver/$driver_ids -maxdepth 0 -type d -exec basename '{}' \; | sort -n ) )
 
 if [ -z $sorted ]
 then
