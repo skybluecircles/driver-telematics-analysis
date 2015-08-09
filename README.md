@@ -6,13 +6,13 @@ After cloning this repo, download the DTA data from the Kaggle website:
 
 http://www.kaggle.com/c/axa-driver-telematics-analysis
 
-You'll need to create a Kaggle account if you don't already have one.
+*You'll need to create a Kaggle account if you don't already have one.*
 
-Note that it's a 1.44 GB file and you'll need ~10-15 GB free to work with the data.
+*Note that it's a 1.44 GB file and you'll need ~10-15 GB free to work with the data.*
 
 ## Initial setup
 
-Then run the commands below.
+First run the commands below.
 
 ```
 $ bin/setup/environment    # quick
@@ -41,10 +41,10 @@ $ bin/plot/pin-wheel '1??' # any driver matching 1??
 $ bin/plot/pin-wheel '*'   # all drivers
 ```
 
-Now, you can start the web-app.
+Let's start the web-app:
 
 ```
-$ bin/web-app-up    # may need to: perl bin/web-app-up
+$ bin/web-app-up    # may need to: $ perl -I./lib bin/web-app-up
 ```
 
 And [visualize](http://127.0.0.1:3000/driver/1/pin-wheel) what you've done.
@@ -94,7 +94,7 @@ $ bin/morphology 1
 And plot what you've done:
 
 ```
-$ bin/plot/morphology
+$ bin/plot/morphology 1
 ```
 
 And visualize it:
@@ -198,23 +198,23 @@ $ bin/all-driver-data '*' # might take a while
 
 ### "Shape" of Features
 
-As we begin to analyze our features, it would be good to get a sense of their shape. For a given driver, for each features, let's look at the distribution of the values.
+As we begin to analyze our features, it would be good to get a sense of their shape. For a given driver, for each set of features, let's look at the distribution of the values.
+
+First, plot them:
 
 ```
 $ bin/plot/feature-box-plots 1
 ```
 
-[box-plots](http://127.0.0.1:3000/driver/1/box-plots)
+And then [visualize](http://127.0.0.1:3000/driver/1/box-plots) them.
 
-Clearly the features have vastly difference scales.
-
-Either we use a non-parametric algorithm - or we scale them.
+Clearly the features have vastly difference scales. Either we use a non-parametric algorithm - or we scale them.
 
 We'll start by scaling them.
 
 ### Scaling Features
 
-In Machine Learning with R, Brett Lantz shows how scale a range of values from their own min / max to 0 and 1. [\[1\]](#footnote-1)
+In Machine Learning with R, Brett Lantz shows how to scale a range of values from their own min / max to 0 and 1. [\[1\]](#footnote-1)
 
 It's less sophisticated than other methods, but that isn't necessarily a strike against it - sometimes simpler is better.
 
@@ -227,13 +227,13 @@ $ head $DTA_DATA/driver/1/features.min-max-norm.csv
 
 As you can see the values are different, but, in some ways, it let's us compare the features more easily.
 
-We can even replot our box-plots to see this more easily.
+We can even replot our box-plots to see this more easily:
 
 ```
 $ bin/plot/feature-box-plots.min-max-norm 1
 ```
 
-[box-plots-min-max-norm](http://127.0.0.1:3000/driver/1/box-plots-min-max-norm)
+Again, let's [visualize](http://127.0.0.1:3000/driver/1/box-plots-min-max-norm) it.
 
 "*k*" toggles between the scalings
 
@@ -246,17 +246,24 @@ So, one approach is to look for clusters.
 We'll start with kmeans.
 
 ```
-$ bin/analysis kmeans 1
+$ bin/analysis/kmeans 1
 $ cat data/driver/1/probs
 ```
 
-After kmeans finds the clusters, we bluntly assign 1 to the 6-most populated clusters and 0 to the others.
+After kmeans finds the clusters, we assign 1 to the 6-most populated clusters and 0 to the others.
 
-There's definitely room for improvement :-)
+This is a very blunt analysis and there's definitely room for improvement.
 
 ## Making a Submission
 
-If we run kmeans against all of the drivers, we can then amalgamate the results:
+If normalize all the features and run kmeans against them:
+
+```
+$ bin/analysis/features.min-max-norm '*'
+$ bin/analysis/kmeans '*'
+```
+
+we can then amalgamate the results:
 
 ```
 $ bin/analysis/amalgamate-probs
@@ -274,7 +281,19 @@ You can do a quick validity check on it.
 $ perl bin/analysis/check-submission.pl /path/to/probs
 ```
 
-It raises an expcetion if any line is malformed and outputs the % of trips for each prob.
+It checks each line of the file and outputs the % of trips for each prob.
+
+We can now [make a submission](https://www.kaggle.com/c/axa-driver-telematics-analysis/submissions/attach).
+
+And to automate doing the analysis and preparing the submission, we can run:
+
+```
+$ bin/submission
+```
+
+The above assume you've already run `bin/all-driver-data` for each driver.
+
+If you got this far, thanks for working through everything!
 
 ## Footnotes
 
