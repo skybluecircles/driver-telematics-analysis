@@ -278,7 +278,7 @@ $ ls $DTA_DATA
 You can do a quick validity check on it.
 
 ```
-$ perl bin/analysis/check-submission.pl /path/to/probs
+$ bin/analysis/check-submission /path/to/probs
 ```
 
 It checks each line of the file and outputs the % of trips for each prob.

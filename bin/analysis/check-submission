@@ -1,18 +1,22 @@
+#!/usr/bin/env perl
+
 use strict;
 use warnings;
 
 use Path::Class;
 
+my $data = $ENV{DTA_DATA} // die 'Environmental variable (DTA_DATA) must be defined';
+
 my $drivers = 2736;
 my $trips   = 200;
-my $lines   = $drivers * $trips;
+my $lines   = $drivers * $trips + 1; # file has a header
 
 my $fh = file( $ARGV[0] )->openr();
 
 my $count_one;
 my $count_zero;
 
-my @driver_ids = `ls $ENV{DTA_DATA}/driver/ | xargs basename | sort -n`;
+my @driver_ids = `find $data/driver/* -maxdepth 0 -type d -exec basename '{}' ';' | sort -n`;
 my $driver_id = shift @driver_ids;
 
 readline $fh; # header
@@ -34,12 +38,13 @@ while ( readline $fh ) {
 
     my ( $this_driver_id, $trip_id ) = split /_/, $driver_trip;
 
-    die "Expected ($i) for trip id for line ($.), but got ($trip_id): $_"
-        if $trip_id != $i;
+    die
+        "Expected driver id ($driver_id) on line ($.), but got ($this_driver_id): $_"
+        if $this_driver_id != $driver_id;
 
     die
-        "Expected ($driver_id) for driver_id for line ($.), but got ($this_driver_id): $_"
-        if $this_driver_id != $driver_id;
+        "Expected trip id ($i) for driver ($this_driver_id) on line ($.), but got ($trip_id): $_"
+        if $trip_id != $i;
 
     if ( $i < 200 ) {
         $i++;
@@ -50,7 +55,7 @@ while ( readline $fh ) {
     }
 }
 
-die "Expected ($lines) lines, but got ($.)" if $. != $lines + 1;
+die "Expected ($lines) lines, but got ($.)" if $. != $lines;
 
 printf '1: %f%s', $count_one / $., $/;
 printf '0: %f%s', $count_zero / $., $/;
