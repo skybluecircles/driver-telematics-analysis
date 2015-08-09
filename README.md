@@ -44,7 +44,7 @@ $ bin/plot/pin-wheel '*'   # all drivers
 Now, you can start the web-app.
 
 ```
-$ bin/web-app-up    # may need to: $ perl -I./lib bin/web-app-up
+$ bin/web-app-up    # may need to: perl bin/web-app-up
 ```
 
 And [visualize](http://127.0.0.1:3000/driver/1/pin-wheel) what you've done.
