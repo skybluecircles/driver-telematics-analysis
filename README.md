@@ -8,16 +8,16 @@ http://www.kaggle.com/c/axa-driver-telematics-analysis
 
 *You'll need to create a Kaggle account if you don't already have one.*
 
-*Note that it's a 1.44 GB file and you'll need ~10-15 GB free to work with the data.*
+*Note that it's a 1.44 GB file - you'll need 10+ GB to play with the data and 50+ GB to make a submission.*
 
 ## Initial setup
 
 First run the commands below.
 
 ```
-$ bin/setup/environment    # quick
-$ bin/setup/data           # 1-3 hours
-$ bin/setup/dependencies   # varies
+$ bin/setup/environment                 # quick
+$ bin/setup/data /path/to/drivers.zip   # 1+ hours
+$ bin/setup/dependencies                # varies
 
 # prove t/integration/setup/*
 ```
@@ -44,7 +44,7 @@ $ bin/plot/pin-wheel '*'   # all drivers
 Let's start the web-app:
 
 ```
-$ bin/web-app-up    # may need to: $ perl -I./lib bin/web-app-up
+$ bin/web-app-up    # may need to: $ perl bin/web-app-up
 ```
 
 And [visualize](http://127.0.0.1:3000/driver/1/pin-wheel) what you've done.
@@ -256,7 +256,9 @@ This is a very blunt analysis and there's definitely room for improvement.
 
 ## Making a Submission
 
-If normalize all the features and run kmeans against them:
+#### Amalgamate
+
+If we normalize all the features and run kmeans against them:
 
 ```
 $ bin/analysis/features.min-max-norm '*'
@@ -269,13 +271,12 @@ we can then amalgamate the results:
 $ bin/analysis/amalgamate-probs
 ```
 
-There will be a file in `$DTA_DATA` called probs with a timestamp after it.
+It will create a file in `$DTA_DATA` called `probs` with a timestamp after it and then print the full path of this file.
 
-```
-$ ls $DTA_DATA
-```
 
-You can do a quick validity check on it.
+#### Validate
+
+You can even do a quick validity check on it:
 
 ```
 $ bin/analysis/check-submission /path/to/probs
@@ -283,15 +284,15 @@ $ bin/analysis/check-submission /path/to/probs
 
 It checks each line of the file and outputs the % of trips for each prob.
 
-We can now [make a submission](https://www.kaggle.com/c/axa-driver-telematics-analysis/submissions/attach).
+#### Upload & automate
 
-And to automate doing the analysis and preparing the submission, we can run:
+We can now [upload](https://www.kaggle.com/c/axa-driver-telematics-analysis/submissions/attach) our submission.
+
+To automate the above steps, you could run:
 
 ```
-$ bin/submission
+$ bin/submission    # assumes "bin/all-driver-data '*'" has been run
 ```
-
-The above assume you've already run `bin/all-driver-data` for each driver.
 
 If you got this far, thanks for working through everything!
 
