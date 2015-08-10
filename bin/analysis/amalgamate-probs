@@ -12,6 +12,7 @@ then
 fi
 
 timestamp=`date +%Y%m%d-%H%M%S`
+submission="$data/probs.$timestamp"
 
 (
   # It's much easier to spot-check our submission if the
@@ -25,4 +26,6 @@ timestamp=`date +%Y%m%d-%H%M%S`
       cat $dir/probs
   done
 ) \
-> $DTA_DATA/probs.$timestamp.csv
+> $submission
+
+echo $submission
