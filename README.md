@@ -1,14 +1,15 @@
 # driver-telematics-analysis
 
-* Download data
-* Initial setup
-* Visualization
-* Working with the data
-* Features
-* Analysis
-* Making a submission
+* Setup
+* Visualize
+* Transform + Condense
+* Amalgamate
+* Analyze
+* Submit
 
-## Download data
+## Setup
+
+### Download data
 
 After cloning this repo, download the DTA data from the Kaggle website:
 
@@ -18,7 +19,7 @@ http://www.kaggle.com/c/axa-driver-telematics-analysis
 
 *Note that it's a 1.44 GB file - you'll need 10+ GB to play with the data and 50+ GB to make a submission.*
 
-## Initial setup
+## Prepare environment
 
 First run the commands below.
 
@@ -32,7 +33,7 @@ $ bin/setup/dependencies                # varies
 
 If you get no errors, your environment should be sane.
 
-## Visualization
+## Visualize
 
 Now, plot a few driver's trips:
 
@@ -62,7 +63,7 @@ And [visualize](http://127.0.0.1:3000/driver/1/pin-wheel) what you've done.
 
 *You'll need to have created the plot for any driver you want to look at.*
 
-## Working with the data
+## Transform + Condense
 
 Now you can begin working with the data.
 
@@ -147,7 +148,7 @@ $ bin/interval-rotations 1
 
 *We also just calculated the absolute amount of rotation for each trip*
 
-## Features
+## Amalgamate
 
 ### Generation
 
@@ -202,7 +203,7 @@ Again, it takes a glob. So, you could do:
 $ bin/all-driver-data '*' # might take a while
 ```
 
-## Analysis
+## Analyze
 
 ### "Shape" of Features
 
@@ -262,7 +263,7 @@ After kmeans finds the clusters, we assign 1 to the 6-most populated clusters an
 
 This is a very blunt analysis and there's definitely room for improvement.
 
-## Making a Submission
+## Submit
 
 #### Amalgamate
 
