@@ -22,7 +22,40 @@ scripts=(
     features
 )
 
-for driver_id in $( find data/driver -name $driver_ids -type d -maxdepth 1 | xargs basename | sort -n )
+# It's nice to be able to let someone pass a glob to this function;
+# however, the DTA data driver ids are a discontinuous set of integers.
+#
+# So, if someone passes something like 1??, I don't know ahead of time
+# which driver id's that would match.
+#
+# I could use a pre-defined list, but I'd like to be able to do this
+# natively in the shell.
+#
+# So, I use find to get the full path for any driver id which matches
+# the glob:
+#
+#    find $data/driver/$driver_ids -maxdepth 0 -type d
+#
+# We add -exec basename '{}' \; to get just the id and then sort these
+# numerically:
+#
+#    sort -n
+#
+# The sorted driver ids are then passed to each of the scripts.
+
+
+sorted=( $( find $data/driver/$driver_ids -maxdepth 0 -type d -exec basename '{}' \; | sort -n ) )
+
+if [ -z $sorted ]
+then
+
+    # empty array
+
+    echo "$driver_ids did not match any driver ids" >&2
+    exit 1
+fi
+
+for driver_id in ${sorted[@]}
 do
     echo $driver_id
 
@@ -31,6 +64,4 @@ do
         echo -e "\t$script"
         bin/$script $driver_id > /dev/null
     done
-done 
-
-
+done

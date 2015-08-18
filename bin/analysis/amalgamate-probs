@@ -12,14 +12,20 @@ then
 fi
 
 timestamp=`date +%Y%m%d-%H%M%S`
+submission="$data/probs.$timestamp"
 
 (
+  # It's much easier to spot-check our submission if the
+  # probs are sorted by driver id
+
   echo "driver_trip,prob"
 
-  for driver_id in $( ls -d $DTA_DATA/driver/* | xargs basename | sort -n )
+  for id in $( find $data/driver/* -maxdepth 0 -type d -exec basename '{}' \; | sort -n )
   do
-      dir=$DTA_DATA/driver/$driver_id
+      dir=$data/driver/$id
       cat $dir/probs
   done
 ) \
-> $DTA_DATA/probs.$timestamp.csv
+> $submission
+
+echo $submission

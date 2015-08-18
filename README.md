@@ -6,25 +6,32 @@ After cloning this repo, download the DTA data from the Kaggle website:
 
 http://www.kaggle.com/c/axa-driver-telematics-analysis
 
+*You'll need to create a Kaggle account if you don't already have one.*
+
+*Note that it's a 1.44 GB file - you'll need 10+ GB to play with the data and 50+ GB to make a submission.*
+
 ## Initial setup
 
-Then run the commands below.
+First run the commands below.
 
 ```
-$ bin/environment
-$ bin/setup-data
-$ bin/util/install-dependencies
-$ prove t/integration/*
+$ bin/setup/environment                 # quick
+$ bin/setup/data /path/to/drivers.zip   # 1+ hours
+$ bin/setup/dependencies                # varies
+
+# prove t/integration/setup/*
 ```
 
-If the integration tests pass, your environment should be sane.
+If you get no errors, your environment should be sane.
 
 ## Visualization
 
-Now, plot a given driver's trips:
+Now, plot a few driver's trips:
 
 ```
 $ bin/plot/pin-wheel 1
+$ bin/plot/pin-wheel 2
+$ bin/plot/pin-wheel 3612
 ```
 
 The arg is actually a glob, so you could also pass:
@@ -34,10 +41,10 @@ $ bin/plot/pin-wheel '1??' # any driver matching 1??
 $ bin/plot/pin-wheel '*'   # all drivers
 ```
 
-Now, you can start the web-app.
+Let's start the web-app:
 
 ```
-$ bin/web-app-up    # may need to: $ perl -I./lib bin/web-app-up
+$ bin/web-app-up    # may need to: $ perl bin/web-app-up
 ```
 
 And [visualize](http://127.0.0.1:3000/driver/1/pin-wheel) what you've done.
@@ -77,7 +84,7 @@ And visualize it:
 
 ### Morphology
 
-Now that you've rotated the coordinates, you can reduce the trip to 4 points.
+Now that you've rotated the coordinates, you can reduce each trip to 4 points.
 
 ```
 $ bin/compile/morphology
@@ -87,13 +94,13 @@ $ bin/morphology 1
 And plot what you've done:
 
 ```
-$ bin/plot/morphology
+$ bin/plot/morphology 1
 ```
 
 And visualize it:
 
-* http://127.0.0.1:3000/driver/1/trip/1/morphology
-* http://127.0.0.1:3000/driver/1/trip/1/morphology-with-coordinates
+* [morphology](http://127.0.0.1:3000/driver/1/trip/1/morphology)
+* [morphology-with-coordinates](http://127.0.0.1:3000/driver/1/trip/1/morphology-with-coordinates)
 
 "*k*" toggles between the two
 
@@ -105,8 +112,8 @@ And visualize it:
 We can derive the distance between each point and how much more (or less) the driver traveled between one interval and the next:
 
 ```
-$ bin/compile/distance
-$ bin/distance 1
+$ bin/compile/distances
+$ bin/distances 1
 ```
 
 This will also give us the total distance and duration for each trip along with the acceleration between each interval and also the average velocity.
@@ -126,8 +133,8 @@ It would be helpful to know how much the driver turns as they move from point to
 The filtering we just did will be helpful here as rotation doesn't really mean anything if the driver isn't moving.
 
 ```
-$ bin/compile/interval-rotation
-$ bin/interval-rotation 1
+$ bin/compile/interval-rotations
+$ bin/interval-rotations 1
 ```
 
 *We also just calculated the absolute amount of rotation for each trip*
@@ -191,23 +198,23 @@ $ bin/all-driver-data '*' # might take a while
 
 ### "Shape" of Features
 
-As we begin to analyze our features, it would be good to get a sense of their shape. For a given driver, for each features, let's look at the distribution of the values.
+As we begin to analyze our features, it would be good to get a sense of their shape. For a given driver, for each set of features, let's look at the distribution of the values.
+
+First, plot them:
 
 ```
 $ bin/plot/feature-box-plots 1
 ```
 
-http://127.0.0.1:3000/driver/1/box-plots
+And then [visualize](http://127.0.0.1:3000/driver/1/box-plots) them.
 
-Clearly the features have vastly difference scales.
-
-Either we use a non-parametric algorithm - or we scale them.
+Clearly the features have vastly difference scales. Either we use a non-parametric algorithm - or we scale them.
 
 We'll start by scaling them.
 
 ### Scaling Features
 
-In Machine Learning with R, Brett Lantz shows how scale a range of values from their own min / max to 0 and 1. [\[1\]](#footnote-1)
+In Machine Learning with R, Brett Lantz shows how to scale a range of values from their own min / max to 0 and 1. [\[1\]](#footnote-1)
 
 It's less sophisticated than other methods, but that isn't necessarily a strike against it - sometimes simpler is better.
 
@@ -220,13 +227,13 @@ $ head $DTA_DATA/driver/1/features.min-max-norm.csv
 
 As you can see the values are different, but, in some ways, it let's us compare the features more easily.
 
-We can even replot our box-plots to see this more easily.
+We can even replot our box-plots to see this more easily:
 
 ```
 $ bin/plot/feature-box-plots.min-max-norm 1
 ```
 
-http://127.0.0.1:3000/driver/1/box-plots-min-max-norm
+Again, let's [visualize](http://127.0.0.1:3000/driver/1/box-plots-min-max-norm) it.
 
 "*k*" toggles between the scalings
 
@@ -239,35 +246,55 @@ So, one approach is to look for clusters.
 We'll start with kmeans.
 
 ```
-$ bin/analysis kmeans 1
+$ bin/analysis/kmeans 1
 $ cat data/driver/1/probs
 ```
 
-After kmeans finds the clusters, we bluntly assign 1 to the 6-most populated clusters and 0 to the others.
+After kmeans finds the clusters, we assign 1 to the 6-most populated clusters and 0 to the others.
 
-There's definitely room for improvement :-)
+This is a very blunt analysis and there's definitely room for improvement.
 
 ## Making a Submission
 
-If we run kmeans against all of the drivers, we can then amalgamate the results:
+#### Amalgamate
+
+If we normalize all the features and run kmeans against them:
+
+```
+$ bin/analysis/features.min-max-norm '*'
+$ bin/analysis/kmeans '*'
+```
+
+we can then amalgamate the results:
 
 ```
 $ bin/analysis/amalgamate-probs
 ```
 
-There will be a file in `$DTA_DATA` called probs with a timestamp after it.
+It will create a file in `$DTA_DATA` called `probs` with a timestamp after it and then print the full path of this file.
+
+
+#### Validate
+
+You can even do a quick validity check on it:
 
 ```
-$ ls $DTA_DATA
+$ bin/analysis/check-submission /path/to/probs
 ```
 
-You can do a quick validity check on it.
+It checks each line of the file and outputs the % of trips for each prob.
+
+#### Upload & automate
+
+We can now [upload](https://www.kaggle.com/c/axa-driver-telematics-analysis/submissions/attach) our submission.
+
+To automate the above steps, you could run:
 
 ```
-$ perl bin/analysis/check-submission.pl /path/to/probs
+$ bin/submission    # assumes "bin/all-driver-data '*'" has been run
 ```
 
-It raises an expcetion if any line is malformed and outputs the % of trips for each prob.
+If you got this far, thanks for working through everything!
 
 ## Footnotes
 

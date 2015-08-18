@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+bin/analysis/features.min-max-norm '*'
+bin/analysis/kmeans '*'
+
+submission=$( bin/analysis/amalgamate-probs )
+
+bin/analysis/check-submission $submission
+
+echo "$submission is ready for upload"

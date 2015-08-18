@@ -12,6 +12,7 @@ Do you want me to install them? [Y/n]
 question
 
 read response
+response=${response:-Y}
 
 if [ $response == 'Y' ]
 then
@@ -60,5 +61,3 @@ install one.
 message
     exit 1
 fi
-
-prove t/integration/install-dependencies.t
