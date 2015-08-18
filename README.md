@@ -1,5 +1,13 @@
 # driver-telematics-analysis
 
+* Download data
+* Initial setup
+* Visualization
+* Working with the data
+* Features
+* Analysis
+* Making a submission
+
 ## Download data
 
 After cloning this repo, download the DTA data from the Kaggle website:
