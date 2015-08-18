@@ -1,11 +1,11 @@
 # driver-telematics-analysis
 
-* Setup
-* Visualize
-* Transform + Condense
-* Amalgamate
-* Analyze
-* Submit
+#### Setup
+#### Visualize
+#### Transform + Condense
+#### Amalgamate
+#### Analyze
+#### Submit
 
 ## Setup
 
